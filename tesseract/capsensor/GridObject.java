@@ -88,14 +88,14 @@ public class GridObject extends JPanel {
 		if (matcher.find() && matcher.groupCount() == 1) {
 			Float capValue = Float.parseFloat(matcher.group(1));
 			// Check that the grid address is valid
-			if (!CapMatrix.baselineThresholdMap.containsKey(gridAddress))
+			if (!DataController.baselineThresholdMap.containsKey(gridAddress))
 				return AppSettings.COLOR_DEFAULT;
 			// If relative difference between capacitance and reference thresholds exceeds the defined relDiffPress, this is a press
-			if (capValue >= CapMatrix.baselineThresholdMap.get(gridAddress)*AppSettings.relDiffPress) {
+			if (capValue >= DataController.baselineThresholdMap.get(gridAddress)*AppSettings.relDiffPress) {
 				return AppSettings.COLOR_PRESS;
 			}
 			// If relative difference between capacitance and reference thresholds is below the defined relDiffHover, this is a hover
-			else if (capValue <= CapMatrix.baselineThresholdMap.get(gridAddress)*(1f - AppSettings.relDiffHover)) {
+			else if (capValue <= DataController.baselineThresholdMap.get(gridAddress)*(1f - AppSettings.relDiffHover)) {
 				return AppSettings.COLOR_HOVER;
 			}
 			// Otherwise, use default color

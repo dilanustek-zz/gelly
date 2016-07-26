@@ -3,6 +3,7 @@ package capsensor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 
 /**
  * Created by dilanustek on 7/25/16.
@@ -11,48 +12,58 @@ import java.awt.*;
 
 public class InterfaceFunct {
 
+    // Touch recognition variables
+    protected static final int TOUCH_THRESHOLD = 0;
+    protected static final int TOUCH_1PTMAX = 1;
+    protected static final int TOUCH_RELMAX = 2;
+    protected static int touchMode = TOUCH_THRESHOLD;
+
+    protected static int displayMode = 0;
+    protected static final int CAPACITANCE_MODE = 0;
+    protected static final int GRAPH_MODE = 1;
+
     /**
      * Functions for interacting with the GUI elements
      */
     protected static void changeDisplayMode(int newMode) {
-        CapMatrix.displayMode = newMode;
-        if(CapMatrix.displayMode == CapMatrix.CAPACITANCE_MODE) {
+        displayMode = newMode;
+        if(displayMode == CAPACITANCE_MODE) {
 //			findTouchPoints();
-            CapMatrix.updateMatrix();
-        } else if(CapMatrix.displayMode == CapMatrix.GRAPH_MODE) {
+            FrameUtil.updateMatrix();
+        } else if(displayMode == GRAPH_MODE) {
             // Update the values of the panel holder
             for(int i=0; i<AppSettings.numColumns; i++) {
                 for(int j=0; j<AppSettings.numRows; j++) {
                     int gridAddress = Integer.parseInt(AppSettings.gridAddress[((i)*AppSettings.numColumns) + (j)],2);
-                    if(CapMatrix.displayMode == CapMatrix.GRAPH_MODE) {
-                        CapMatrix.panelHolder[i][j] = CapMatrix.chartsArray.get(gridAddress);
+                    if(displayMode == GRAPH_MODE) {
+                        FrameUtil.panelHolder[i][j] = DataController.chartsArray.get(gridAddress);
                     }
-                    CapMatrix.panelHolder[i][j].setBorder(BorderFactory.createLineBorder(Color.black, 1));
+                    FrameUtil.panelHolder[i][j].setBorder(BorderFactory.createLineBorder(Color.black, 1));
                 }
             }
             // Update matrix
-            CapMatrix.updateMatrix();
+            FrameUtil.updateMatrix();
         }
     }
 
     protected static void changeFilterMode(int newMode) {
-        CapMatrix.filterMode = newMode;
-        if(newMode == CapMatrix.FILTER_SR) {
+        FilterUtil.filterMode = newMode;
+        if(newMode == FilterUtil.FILTER_SR) {
             AppSettings.slewRateSampleCounter = 0;
             AppSettings.slewRateSetCounter = 0;
-        } else if(newMode == CapMatrix.FILTER_LP) {
-            CapMatrix.rawCap.clear();
+        } else if(newMode == FilterUtil.FILTER_LP) {
+            DataController.rawCap.clear();
         }
-        if(CapMatrix.isDataTransmitting) {
-            CapMatrix.isDataTransmitting = false;
+        if(DataController.isDataTransmitting) {
+            DataController.isDataTransmitting = false;
         }
     }
 
     protected static void changeTouchMode(int newMode) {
-        CapMatrix.touchMode = newMode;
-        CapMatrix.touchPoints.clear();
-        if(CapMatrix.isDataTransmitting) {
-            CapMatrix.isDataTransmitting = false;
+        touchMode = newMode;
+        DataController.touchPoints.clear();
+        if(DataController.isDataTransmitting) {
+            DataController.isDataTransmitting = false;
         }
     }
 

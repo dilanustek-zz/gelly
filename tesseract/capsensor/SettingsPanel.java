@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.sound.sampled.Port;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -97,13 +98,13 @@ public class SettingsPanel extends JPanel {
 				AppSettings.serialPortNumber = comPortField.getText();
 				if(!SettingsPanel.isConnected) {
 					try {
-						CapMatrix.initializeSerialConnection();
+						PortUtil.initializeSerialConnection();
 					} catch (IOException e1) {
 						System.out.println("IO Error: " + e1);
 					}
 				} else {
 					try {
-						CapMatrix.endSerialConnection();
+						PortUtil.endSerialConnection();
 					} catch (IOException e1) {
 						System.out.println("IO Error: " + e1);
 					}
@@ -121,16 +122,16 @@ public class SettingsPanel extends JPanel {
 		capViewBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CapMatrix.displayMode = CapMatrix.CAPACITANCE_MODE;	
-				CapMatrix.findTouchPoints();
+				InterfaceFunct.displayMode = InterfaceFunct.CAPACITANCE_MODE;
+				DataController.findTouchPoints();
 			}			
 		});
 		graphViewBtn.setSelected(false);
 		graphViewBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CapMatrix.displayMode = CapMatrix.GRAPH_MODE;
-				CapMatrix.updateMatrix();
+				InterfaceFunct.displayMode = InterfaceFunct.GRAPH_MODE;
+				FrameUtil.updateMatrix();
 			}			
 		});
 		displaySettings.add(capViewBtn);
@@ -148,9 +149,9 @@ public class SettingsPanel extends JPanel {
 				JComboBox<String> cb = (JComboBox<String>)e.getSource();
 				String selectedOption = (String)cb.getSelectedItem();
 				if(selectedOption == displayCapString) {
-					InterfaceFunct.changeDisplayMode(CapMatrix.CAPACITANCE_MODE);
+					InterfaceFunct.changeDisplayMode(InterfaceFunct.CAPACITANCE_MODE);
 				} else if(selectedOption == displayGraphString) {
-					InterfaceFunct.changeDisplayMode(CapMatrix.GRAPH_MODE);
+					InterfaceFunct.changeDisplayMode(InterfaceFunct.GRAPH_MODE);
 				}
 				
 			}			
@@ -172,11 +173,11 @@ public class SettingsPanel extends JPanel {
 				JComboBox<String> cb = (JComboBox<String>)e.getSource();
 				String selectedOption = (String)cb.getSelectedItem();
 				if(selectedOption == filterNoneString) {
-					InterfaceFunct.changeFilterMode(CapMatrix.FILTER_NONE);
+					InterfaceFunct.changeFilterMode(FilterUtil.FILTER_NONE);
 				} else if(selectedOption == filterSrString) {
-					InterfaceFunct.changeFilterMode(CapMatrix.FILTER_SR);
+					InterfaceFunct.changeFilterMode(FilterUtil.FILTER_SR);
 				} else if(selectedOption == filterLpLPtAvgString) {
-					InterfaceFunct.changeFilterMode(CapMatrix.FILTER_LP);
+					InterfaceFunct.changeFilterMode(FilterUtil.FILTER_LP);
 				}
 				
 			}			
@@ -198,9 +199,9 @@ public class SettingsPanel extends JPanel {
 				JComboBox<String> cb = (JComboBox<String>)e.getSource();
 				String selectedOption = (String)cb.getSelectedItem();
 				if(selectedOption == touchThresholdString) {
-					InterfaceFunct.changeTouchMode(CapMatrix.TOUCH_THRESHOLD);
+					InterfaceFunct.changeTouchMode(InterfaceFunct.TOUCH_THRESHOLD);
 				} else if(selectedOption == touch1PtMaxString) {
-					InterfaceFunct.changeTouchMode(CapMatrix.TOUCH_1PTMAX);
+					InterfaceFunct.changeTouchMode(InterfaceFunct.TOUCH_1PTMAX);
 				}
 				
 			}			
@@ -246,20 +247,20 @@ public class SettingsPanel extends JPanel {
 				if(tmpThresholdPress >= 0 && tmpThresholdPress != null) {
 					AppSettings.relDiffPress = tmpThresholdPress;
 					CapMatrix.debugText = "Settings updated.";
-					CapMatrix.updateDebugText();
+					FrameUtil.updateDebugText();
 				} else {
 					CapMatrix.debugText = "Invalid press threshold value - keeping previous value";
-					CapMatrix.updateDebugText();
+					FrameUtil.updateDebugText();
 					return;
 				}
 				Float tmpThresholdRelease = Float.valueOf(SettingsPanel.threshReleaseField.getText())/100f;
 				if(tmpThresholdRelease >= 0 && tmpThresholdRelease != null) {
 					AppSettings.relDiffRelease = tmpThresholdRelease;
 					CapMatrix.debugText = "Settings updated.";
-					CapMatrix.updateDebugText();
+					FrameUtil.updateDebugText();
 				} else {
 					CapMatrix.debugText = "Invalid release threshold value - keeping previous value";
-					CapMatrix.updateDebugText();
+					FrameUtil.updateDebugText();
 					return;
 				}
 			}
