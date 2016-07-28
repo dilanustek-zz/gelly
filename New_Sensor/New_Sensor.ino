@@ -202,7 +202,7 @@ void loop() // main program begins
                {
 
                  //Printing averaged baseline data
-                 Serial.print("averaged BASELINE ");
+                 Serial.print("BASELINE ");
                  Serial.print("(");
                  address_bit0=bitRead(address[i],0);
                  address_bit1=bitRead(address[i],1);

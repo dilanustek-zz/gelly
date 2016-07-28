@@ -65,6 +65,10 @@ public class DataController {
                 Float capValue = Float.parseFloat(matcher.group(2));
 
                 addBaselinePoint(gridAddress, capValue);
+
+                // write to csv
+                CSVUtil.writeCsv(gridAddress, capValue);
+
             } else {
                 System.out.println("### FAILED TO SET THRESHOLD ###");
             }
@@ -80,14 +84,8 @@ public class DataController {
 
                     addCapacitancePoint(gridAddress, capValue);
 
-                    // write to csv TODO
-
-                    List<String> list = new ArrayList<>();
-                    list.add(gridAddress.toString());
-                    list.add(capValue.toString());
-
-                    CSVUtil.writeLine(PortUtil.writer, list);
-                    PortUtil.writer.flush();
+                    // write to csv
+                    CSVUtil.writeCsv(gridAddress, capValue);
                 }
             }
         }

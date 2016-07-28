@@ -5,6 +5,7 @@ package capsensor;
  */
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CSVUtil {
@@ -57,6 +58,17 @@ public class CSVUtil {
         w.append(sb.toString());
 
 
+    }
+
+    public static void writeCsv(Integer gridAddress, Float capValue)
+            throws IOException {
+
+        List<String> list = new ArrayList<>();
+        list.add(gridAddress.toString());
+        list.add(capValue.toString());
+
+        CSVUtil.writeLine(PortUtil.writer, list);
+        PortUtil.writer.flush();
     }
 
 }
