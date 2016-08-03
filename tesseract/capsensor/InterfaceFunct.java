@@ -57,6 +57,7 @@ public class InterfaceFunct {
         if(DataController.isDataTransmitting) {
             DataController.isDataTransmitting = false;
         }
+        System.out.println("change filter mode");
     }
 
     protected static void changeTouchMode(int newMode) {
@@ -65,6 +66,8 @@ public class InterfaceFunct {
         if(DataController.isDataTransmitting) {
             DataController.isDataTransmitting = false;
         }
+        System.out.println("change touch mode");
+
     }
 
 }

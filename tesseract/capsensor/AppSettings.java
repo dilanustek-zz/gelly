@@ -15,8 +15,11 @@ public class AppSettings {
 	// Grid matrix parameters
 	public static int numRows = 4;
 	public static int numColumns = 4;
-	public static String[] gridAddress = {"0110","0100","0101","0111","0010","0000","0001","0011","1010","1000","1001","1011","1110","1100","1101","1111"};
-	
+	protected static int numDataPts = AppSettings.numColumns * AppSettings.numRows;
+
+	//public static String[] gridAddress = {"0110","0100","0101","0111","0010","0000","0001","0011","1010","1000","1001","1011","1110","1100","1101","1111"};
+	public static String[] gridAddress = {"0000","0001","0010","0011","0100","0101","0110","0111","1000","1001","1010","1011","1100","1101","1110","1111"};
+
 	// Grid object parameters
 	public static final int xPosRect = 0;
 	public static final int yPosRect = 0;
@@ -75,7 +78,7 @@ public class AppSettings {
 	public static int slewRateSampleCounter = 0;
 	public static int slewRateSetCounter = 0;
 	public static final int slewRateSetsPerUpdate = 4;
-	
+
 
 	private static void prepareMap() {
 		rowMap.clear();

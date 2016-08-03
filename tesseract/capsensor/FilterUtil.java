@@ -1,13 +1,14 @@
 package capsensor;
 
 
+import javax.xml.crypto.Data;
+
 /**
  * Created by dilanustek on 7/26/16.
  */
 public class FilterUtil {
 
     // Filtering parameters
-    protected static int numDataPts = AppSettings.numColumns * AppSettings.numRows;
     protected static final int FILTER_NONE = 0;
     protected static final int FILTER_SR = 1;
     protected static final int FILTER_LP = 2;
@@ -28,18 +29,19 @@ public class FilterUtil {
     }
 
     protected static void applyNoFilter(Integer gridAddress, Float capValue) {
-        //Old implementation with unprocessed updates to grid data
-		/*if(gridAddressMap.containsKey(gridAddress)) {
-			int[] coordinates = gridAddressMap.get(gridAddress);
-			currentCapacitance.put(gridAddress, capValue);
-			dataTrace.get(gridAddress).addPoint(((double) System.currentTimeMillis() - startTime), capValue);
-//			panelHolder[coordinates[0]][coordinates[1]] = new GridObject(gridAddress,capValue + " pF");
-//			f.getContentPane().add(panelHolder[coordinates[0]][coordinates[1]]);
-			updateMatrix();
+       /* //Old implementation with unprocessed updates to grid data
+		if(DataController.gridAddressMap.containsKey(gridAddress)) {
+			int[] coordinates = DataController.gridAddressMap.get(gridAddress);
+		//	currentCapacitance.put(gridAddressz, capValue);
+            DataController.dataTrace.get(gridAddress).addPoint(((double) System.currentTimeMillis() - DataController.startTime), capValue);
+	//		panelHolder[coordinates[0]][coordinates[1]] = new GridObject(gridAddress,capValue + " pF");
+	//		FrameUtil.frame.getContentPane().add(panelHolder[coordinates[0]][coordinates[1]]);
+		//	FrameUtil.updateMatrix();
 		}else {
 				System.out.println("### KEY (" + gridAddress + ") NOT FOUND ###");
 		} */
-        // Update debug text
+        // New implementation with processed data
+        //Update debug text
         CapMatrix.debugText = "Applying no filter.";
         FrameUtil.updateDebugText();
 //		System.out.println(debugText);
@@ -50,6 +52,7 @@ public class FilterUtil {
         // Add data point to graph
 //		dataTrace.get(gridAddress).addPoint(((double) System.currentTimeMillis() - startTime), capValue);
         DataController.dataTrace.get(gridAddress).addPoint(System.currentTimeMillis(), capValue);
+
     }
 
     protected static void applySlewRateFilter(Integer gridAddress, Float capValue) {
@@ -67,7 +70,7 @@ public class FilterUtil {
             DataController.processedCap.put(gridAddress, DataController.processedCap.get(gridAddress) - AppSettings.slewRateIncrement);
         }
         AppSettings.slewRateSampleCounter++;
-        if(AppSettings.slewRateSampleCounter%numDataPts == 0) {
+        if(AppSettings.slewRateSampleCounter%AppSettings.numDataPts == 0) {
             AppSettings.slewRateSetCounter++;
 //			if(slewRateSetCounter%slewRateDataSets == 0) {
 //				slewRateSetCounter = 0;

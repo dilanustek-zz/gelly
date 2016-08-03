@@ -37,7 +37,7 @@ public class CapMatrix extends JPanel {
 
 	// GUI Max and Min Range
 	protected static double minRange = 0.5;
-	protected static double maxRange = 1.5;
+	protected static double maxRange = 1.7;
 
 	// Timing variables
 	private static int indexRead = 0;
@@ -52,7 +52,7 @@ public class CapMatrix extends JPanel {
 		try {
 			System.out.println("Reading file");
 			AppSettings.readFile(AppSettings.fileName);
-			FilterUtil.numDataPts = AppSettings.numColumns * AppSettings.numRows; // TODO: is it needed?
+			AppSettings.numDataPts = AppSettings.numColumns * AppSettings.numRows; // TODO: is it needed?
 		} catch (IOException e) {
 			System.out.println("Unable to read settings from file.");
 		}
@@ -98,7 +98,7 @@ public class CapMatrix extends JPanel {
 		}		
 		// Prepare trace array
 //		IAxis chartAxis = new IAxis(new LabelFormatterDate(DateFormat.getDateInstance()));
-		for(int i=0; i<FilterUtil.numDataPts; i++) {
+		for(int i=0; i<AppSettings.numDataPts; i++) {
 			DataController.dataTrace.add(new Trace2DLtd(50));
 			DataController.dataTrace.get(i).setColor(Color.BLUE);
 			DataController.dataTrace.get(i).setName("");

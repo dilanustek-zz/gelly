@@ -38,7 +38,7 @@ public class PortUtil {
                         byte buffer[] = serialPort.readBytes();
                         for(byte b:buffer) {
                             if((b == '\r' || b == '\n') && arduinoMessage.length() > 0) {
-                                System.out.println(arduinoMessage.toString().trim());
+                                //System.out.println(arduinoMessage.toString().trim());
                                 DataController.parseCommand(arduinoMessage.toString().trim());
                                 arduinoMessage = new StringBuilder();
                             } else {

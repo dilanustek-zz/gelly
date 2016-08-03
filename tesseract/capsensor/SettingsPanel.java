@@ -262,7 +262,7 @@ public class SettingsPanel extends JPanel {
 					CapMatrix.debugText = "Invalid release threshold value - keeping previous value";
 					FrameUtil.updateDebugText();
 					return;
-				}
+				} // TODO ADD HOVER
 			}
 		});
 		this.add(updateButton);

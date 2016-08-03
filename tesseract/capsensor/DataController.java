@@ -1,15 +1,15 @@
 package capsensor;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import info.monitorenter.gui.chart.Chart2D;
 import info.monitorenter.gui.chart.ITrace2D;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,61 +45,87 @@ public class DataController {
     protected static HashMap<Integer, Float> absCapDiff = new HashMap<Integer, Float>();
 
     // Regex patterns for parsing data from Arduino
-    protected static final String patternBeginTransmission = "BEGIN";
-    protected static final String patternEndTransmission = "END";
     private static final String patternDataTransmission = "^\\((\\d+)\\)\\s*(\\d*\\.*\\d+)";
     private static final String patternDataBaseline = "^BASELINE\\s*\\((\\d+)\\)\\s*(\\d*\\.*\\d+)";
 
+    // Baseline parameters
+    private static int baselineCount = 0;
+
+    // Touch flag to make sure baseline is not obtained during touch
+    protected static boolean touchFlag = false;
+
+    // Keep 4 cap values for each cell to average later
+    private static Multimap<Integer, Float> fourCaps = ArrayListMultimap.create();
 
     /**
      * Functions for handling the commands received through serial
      */
     protected static void parseCommand(String command)
             throws IOException {
-        // Check if command is for setting data baseline
-        Pattern pattern = Pattern.compile(patternDataBaseline);
+
+        Pattern pattern = Pattern.compile(patternDataTransmission);
         Matcher matcher = pattern.matcher(command);
+
         if (matcher.find()) {
             if (matcher.groupCount() == 2) {
                 Integer gridAddress = Integer.parseInt(matcher.group(1),2);
                 Float capValue = Float.parseFloat(matcher.group(2));
+                System.out.println(gridAddress + "  " + capValue);
 
-                addBaselinePoint(gridAddress, capValue);
-
-                // write to csv
-                CSVUtil.writeCsv(gridAddress, capValue);
-
-            } else {
-                System.out.println("### FAILED TO SET THRESHOLD ###");
-            }
-        }
-        // If not for baseline, check if data corresponds to a capacitance reading
-        else {
-            pattern = Pattern.compile(patternDataTransmission);
-            matcher = pattern.matcher(command);
-            if (matcher.find()) {
-                if (matcher.groupCount() == 2) {
-                    Integer gridAddress = Integer.parseInt(matcher.group(1),2);
-                    Float capValue = Float.parseFloat(matcher.group(2));
-
+                // Check if command is for setting data baseline
+                if (baselineThresholdMap.size() == AppSettings.numDataPts){
                     addCapacitancePoint(gridAddress, capValue);
 
-                    // write to csv
-                    CSVUtil.writeCsv(gridAddress, capValue);
+                    // still a baseline point every 4 collections if there is no touch TODO + hover
+                    if ((baselineCount >= 64) && !touchPoints.isEmpty()){
+                        addAveragedBaselinePoints();//  empty fourCaps
+                    }
+
+                } else if (baselineThresholdMap.size() < AppSettings.numDataPts){
+                    addBaselinePoint(gridAddress, capValue);
+                } else {
+                    System.out.println("parse command error");
+                    // TODO error
                 }
+
             }
         }
-
 
 
     }
 
-    private static void addBaselinePoint(Integer gridAddress, Float capValue) {
+
+    private static void addAveragedBaselinePoints()
+            throws IOException {
+        float sum = 0;
+
+        for (Object key: fourCaps.keys()){
+            Collection<Float> c = fourCaps.get((Integer) key);
+
+            for (Float cap : c){
+                sum += cap;
+            }
+            addBaselinePoint((Integer)key, sum/c.size());
+            sum = 0;
+        }
+
+        // reset to restart the count to baseline
+        fourCaps.clear();
+        baselineCount = 0;
+
+        System.out.println("baseline map is = " + baselineThresholdMap.toString());
+
+    }
+
+
+    private static void addBaselinePoint(Integer gridAddress, Float capValue)
+            throws IOException {
         // Raw Implementation
 //		CapMatrix.baselineThresholdMap.put(gridAddress, capValue);
 
         // Implementation with max search algorithm
         if(gridAddress == 0) {
+      //  if(baselineThresholdMap.size() == 0) {
             isDataTransmitting = true;
             switch(FilterUtil.filterMode) {
                 case FilterUtil.FILTER_NONE:
@@ -111,8 +137,10 @@ public class DataController {
                     FilterUtil.baselineSlewRateFilter(gridAddress, capValue);
                     break;
                 case FilterUtil.FILTER_LP:
-                    break;
+                    break; // TODO what happened here?
             }
+            CSVUtil.writeCsv(gridAddress, capValue);
+
         }
         // Implementation with max search algorithm
         else if(isDataTransmitting) {
@@ -128,24 +156,23 @@ public class DataController {
                 case FilterUtil.FILTER_LP:
                     break;
             }
-            if(gridAddress == (FilterUtil.numDataPts-1)) {
+            if(gridAddress == (AppSettings.numDataPts-1)) {
                 isDataTransmitting = false;
             }
+            //CSVUtil.writeCsv(gridAddress, capValue); TODO: do we need to write it? -- or show it?
         }
-        else {
-            System.out.println("### KEY (" + gridAddress + ") NOT FOUND ###");
-        }
+//        else {
+//            System.out.println("### KEY (" + gridAddress + ") NOT FOUND ###");
+//        }
         CapMatrix.debugText = "Updating baseline values...";
         FrameUtil.updateDebugText();
     }
 
-    private static void addCapacitancePoint(Integer gridAddress, Float capValue) {
-
-        //System.out.println("gridAdress contains: " + gridAddressMap.containsKey(gridAddress));
-        //System.out.println("baselinethresholdmap contains: " + baselineThresholdMap.containsKey(gridAddress));
+    private static void addCapacitancePoint(Integer gridAddress, Float capValue)
+            throws IOException {
 
 
-        if(gridAddressMap.containsKey(gridAddress) && baselineThresholdMap.containsKey(gridAddress)) {
+        if(gridAddressMap.containsKey(gridAddress)) {
             if(gridAddress == 0) {
                 isDataTransmitting = true;
                 switch(FilterUtil.filterMode) {
@@ -162,38 +189,50 @@ public class DataController {
                         FilterUtil.applyLPtAvgLpFilter(gridAddress, capValue);
                         break;
                 }
+                //Add to the fourCaps to keep for averaging later
+                fourCaps.put(gridAddress, capValue);
+                baselineCount++;
+
+                CSVUtil.writeCsv(gridAddress, capValue);
+
             } else if(isDataTransmitting) {
                 switch(FilterUtil.filterMode) {
                     case FilterUtil.FILTER_NONE:
                         // Implementation with no filter
                         FilterUtil.applyNoFilter(gridAddress, capValue);
-                        if(gridAddress == (FilterUtil.numDataPts-1)) {
+                        if(gridAddress == (AppSettings.numDataPts-1)) {
                             isDataTransmitting = false;
                             // Implementation without SRF
-                            findTouchPoints();
+                            //findTouchPoints();
                         }
                         break;
                     case FilterUtil.FILTER_SR:
                         // Implementation with SRF
                         FilterUtil.applySlewRateFilter(gridAddress, capValue);
-                        if(gridAddress == (FilterUtil.numDataPts-1)) {
+                        if(gridAddress == (AppSettings.numDataPts-1)) {
                             isDataTransmitting = false;
                             // Implementation with SRF
-                            if(AppSettings.slewRateSetCounter%AppSettings.slewRateSetsPerUpdate == 0)
-                                findTouchPoints();
+                            //if(AppSettings.slewRateSetCounter%AppSettings.slewRateSetsPerUpdate == 0)
+                           //     findTouchPoints();
                         }
                         break;
                     case FilterUtil.FILTER_LP:
                         // Implementation with Butterworth LP filter
 //						applyButterworthLpFilter(gridAddress, capValue);
                         FilterUtil.applyLPtAvgLpFilter(gridAddress, capValue);
-                        if(gridAddress == (FilterUtil.numDataPts-1)) {
+                        if(gridAddress == (AppSettings.numDataPts-1)) {
                             isDataTransmitting = false;
-                            findTouchPoints();
+                          //  findTouchPoints();
                         }
                         break;
                 }
                 CapMatrix.debugText = "Parsing input capacitance...";
+
+                //Add to the fourCaps to keep for averaging later
+                fourCaps.put(gridAddress, capValue);
+                baselineCount++;
+
+                CSVUtil.writeCsv(gridAddress, capValue);
             }
             else {
                 System.out.println("### KEY (" + gridAddress + ") NOT FOUND ###");
@@ -204,6 +243,7 @@ public class DataController {
             CapMatrix.debugText = "### Either grid map or baseline does not contain this key ### : " + gridAddress;
         }
         FrameUtil.updateDebugText();
+
     }
 
     protected static void findTouchPoints() {
@@ -223,6 +263,7 @@ public class DataController {
                 for(int i=0; i<AppSettings.numColumns; i++) {
                     for(int j=0; j<AppSettings.numRows; j++) {
                         Integer gridAddress = Integer.parseInt(AppSettings.gridAddress[((i)*AppSettings.numColumns) + (j)],2);
+
                         if(InterfaceFunct.displayMode == InterfaceFunct.CAPACITANCE_MODE) {
                             // If this gridAddress is a known touch point, we can continue to next grid address
                             if(touchPoints.contains(gridAddress)) {
@@ -240,6 +281,7 @@ public class DataController {
                             else {
                                 FrameUtil.panelHolder[i][j] = new GridObject(gridAddress, processedCap.get(gridAddress) + " pF", relCapDiff.get(gridAddress)*100f + "%", AppSettings.COLOR_DEFAULT);
                             }
+
                         } else if(InterfaceFunct.displayMode == InterfaceFunct.GRAPH_MODE) {
 //							if(currentCapacitance.get(gridAddress) > baselineThresholdMap.get(gridAddress) && relCapDiff.get(gridAddress) > relDiffPress) {
                             // If this gridAddress is a known touch point, we can continue to next grid address
