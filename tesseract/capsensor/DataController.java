@@ -70,14 +70,18 @@ public class DataController {
             if (matcher.groupCount() == 2) {
                 Integer gridAddress = Integer.parseInt(matcher.group(1),2);
                 Float capValue = Float.parseFloat(matcher.group(2));
-                System.out.println(gridAddress + "  " + capValue);
+                if (gridAddress == 0)
+                    System.out.println(gridAddress + "  " + capValue);
 
+                   // if (relCapDiff != null && relCapDiff.size()==AppSettings.numDataPts) {
+                    //    findTouchPoints();
+                   // }
                 // Check if command is for setting data baseline
                 if (baselineThresholdMap.size() == AppSettings.numDataPts){
                     addCapacitancePoint(gridAddress, capValue);
 
                     // still a baseline point every 4 collections if there is no touch TODO + hover
-                    if ((baselineCount >= 64) && !touchPoints.isEmpty()){
+                    if ((baselineCount >= 64) && touchPoints.isEmpty()){
                         addAveragedBaselinePoints();//  empty fourCaps
                     }
 
@@ -172,7 +176,7 @@ public class DataController {
             throws IOException {
 
 
-        if(gridAddressMap.containsKey(gridAddress)) {
+        if(gridAddressMap.containsKey(gridAddress) && baselineThresholdMap.containsKey(gridAddress)) {
             if(gridAddress == 0) {
                 isDataTransmitting = true;
                 switch(FilterUtil.filterMode) {
@@ -203,7 +207,7 @@ public class DataController {
                         if(gridAddress == (AppSettings.numDataPts-1)) {
                             isDataTransmitting = false;
                             // Implementation without SRF
-                            //findTouchPoints();
+                            findTouchPoints();
                         }
                         break;
                     case FilterUtil.FILTER_SR:
@@ -212,8 +216,8 @@ public class DataController {
                         if(gridAddress == (AppSettings.numDataPts-1)) {
                             isDataTransmitting = false;
                             // Implementation with SRF
-                            //if(AppSettings.slewRateSetCounter%AppSettings.slewRateSetsPerUpdate == 0)
-                           //     findTouchPoints();
+                            if(AppSettings.slewRateSetCounter%AppSettings.slewRateSetsPerUpdate == 0)
+                                findTouchPoints();
                         }
                         break;
                     case FilterUtil.FILTER_LP:
@@ -222,7 +226,7 @@ public class DataController {
                         FilterUtil.applyLPtAvgLpFilter(gridAddress, capValue);
                         if(gridAddress == (AppSettings.numDataPts-1)) {
                             isDataTransmitting = false;
-                          //  findTouchPoints();
+                            findTouchPoints();
                         }
                         break;
                 }
@@ -271,7 +275,7 @@ public class DataController {
 //								continue;
                             }
                             // Otherwise, check for new touch points
-                            else if(relCapDiff.get(gridAddress) > AppSettings.relDiffPress) {
+                            else if(relCapDiff.get(gridAddress) < AppSettings.relDiffPress) {
                                 FrameUtil.panelHolder[i][j] = new GridObject(gridAddress, processedCap.get(gridAddress) + " pF", relCapDiff.get(gridAddress)*100f + "%", AppSettings.COLOR_PRESS);
                                 touchPoints.add(gridAddress);
                             }
@@ -285,13 +289,20 @@ public class DataController {
                         } else if(InterfaceFunct.displayMode == InterfaceFunct.GRAPH_MODE) {
 //							if(currentCapacitance.get(gridAddress) > baselineThresholdMap.get(gridAddress) && relCapDiff.get(gridAddress) > relDiffPress) {
                             // If this gridAddress is a known touch point, we can continue to next grid address
+
+                            //if(gridAddress==0)
+                                //System.out.println("rel cap diff= " + relCapDiff.get(gridAddress) + " -- press needed " + AppSettings.relDiffPress );
+
                             if(touchPoints.contains(gridAddress)) {
                                 chartsArray.get(gridAddress).setBackground(AppSettings.COLOR_PRESS);
 //								continue;
+                                System.out.println("already a touch point exists at " + gridAddress);
                             }
                             // Otherwise, check for new touch points
-                            else if(relCapDiff.get(gridAddress) > AppSettings.relDiffPress) {
+                            else if(relCapDiff.get(gridAddress) < AppSettings.relDiffPress) {
                                 chartsArray.get(gridAddress).setBackground(AppSettings.COLOR_PRESS);
+                                System.out.println("NEW touch point at " + gridAddress);
+
                             }
 							/*else if(currentCapacitance.get(gridAddress) < baselineThresholdMap.get(gridAddress) && relCapDiff.get(gridAddress) > relDiffHover) {
 
@@ -305,8 +316,9 @@ public class DataController {
                     }
                 }
                 // Update matrix
-                if(InterfaceFunct.displayMode == InterfaceFunct.CAPACITANCE_MODE)
+                //if(InterfaceFunct.displayMode == InterfaceFunct.CAPACITANCE_MODE) {
                     FrameUtil.updateMatrix();
+               // }
                 // Update debug text
                 CapMatrix.debugText = "Applying threshold touch recognition.";
                 FrameUtil.updateDebugText();

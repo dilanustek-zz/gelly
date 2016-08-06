@@ -2,6 +2,7 @@ package capsensor;
 
 
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.util.HashMap;
 
@@ -28,7 +29,7 @@ public class InterfaceFunct {
     protected static void changeDisplayMode(int newMode) {
         displayMode = newMode;
         if(displayMode == CAPACITANCE_MODE) {
-//			findTouchPoints();
+		//	DataController.findTouchPoints();
             FrameUtil.updateMatrix();
         } else if(displayMode == GRAPH_MODE) {
             // Update the values of the panel holder

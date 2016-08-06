@@ -31,8 +31,8 @@ public class AppSettings {
 	public static final int heightFill = 140;
 	
 	// Color parameters
-	public static final Color COLOR_HOVER = Color.red;
-	public static final Color COLOR_PRESS = Color.green;
+	public static final Color COLOR_HOVER = Color.green;
+	public static final Color COLOR_PRESS = Color.red;
 	public static final Color COLOR_DEFAULT = Color.white;
 	
 	// Arduino serial parameters
@@ -69,9 +69,9 @@ public class AppSettings {
 	static final HashMap<String,Integer> rowMap = new HashMap<String,Integer>();
 	
 	// Touch threshold values
-	public static Float relDiffHover= 0.001f;
-	public static Float relDiffPress = 0.0010f;
-	public static Float relDiffRelease = 0.0005f;
+	public static Float relDiffHover= -0.02f;
+	public static Float relDiffPress = -0.06f;
+	public static Float relDiffRelease = 0.04f;
 	
 	// Filtering parameters
 	public static final float slewRateIncrement = 0.005f;
@@ -141,7 +141,7 @@ public class AppSettings {
 					matcher = pattern.matcher(line);
 					if (matcher.find() && matcher.groupCount() == 1) {
 						tmpThresholdHover = Float.parseFloat(matcher.group(1).trim());
-						AppSettings.relDiffHover = tmpThresholdHover < 1 && tmpThresholdHover >= 0 && tmpThresholdHover != null ? tmpThresholdHover/100f : AppSettings.relDiffHover;
+						AppSettings.relDiffHover = tmpThresholdHover < 1 && tmpThresholdHover != null ? tmpThresholdHover/100f : AppSettings.relDiffHover;
 //						System.out.println("Hover threshold read: " + matcher.group(1).trim());
 						System.out.println("Hover threshold read: " + AppSettings.relDiffHover);
 					} else {
@@ -152,7 +152,7 @@ public class AppSettings {
 					matcher = pattern.matcher(line);
 					if (matcher.find() && matcher.groupCount() == 1) {
 						tmpThresholdPress= Float.parseFloat(matcher.group(1).trim());
-						AppSettings.relDiffPress= tmpThresholdPress >= 0 && tmpThresholdPress != null ? tmpThresholdPress/100f : AppSettings.relDiffPress;
+						AppSettings.relDiffPress= tmpThresholdPress != null ? tmpThresholdPress/100f : AppSettings.relDiffPress;
 //						System.out.println("Press threshold read: " + matcher.group(1).trim());
 						System.out.println("Press threshold read: " + AppSettings.relDiffPress);
 					} else {
@@ -163,7 +163,7 @@ public class AppSettings {
 					matcher = pattern.matcher(line);
 					if (matcher.find() && matcher.groupCount() == 1) {
 						tmpThresholdRelease = Float.parseFloat(matcher.group(1).trim());
-						AppSettings.relDiffRelease = tmpThresholdRelease >= 0 && tmpThresholdRelease != null ? tmpThresholdRelease/100f : AppSettings.relDiffRelease;
+						AppSettings.relDiffRelease = tmpThresholdRelease != null ? tmpThresholdRelease/100f : AppSettings.relDiffRelease;
 //						System.out.println("Press threshold read: " + matcher.group(1).trim());
 						System.out.println("Release threshold read: " + AppSettings.relDiffRelease);
 					} else {

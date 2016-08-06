@@ -36,8 +36,8 @@ public class CapMatrix extends JPanel {
 	private static final String DEBUG_START = "Application started.";
 
 	// GUI Max and Min Range
-	protected static double minRange = 0.5;
-	protected static double maxRange = 1.7;
+	protected static double minRange = 1.5;
+	protected static double maxRange = 2.5;
 
 	// Timing variables
 	private static int indexRead = 0;
@@ -91,29 +91,26 @@ public class CapMatrix extends JPanel {
 		DataController.gridAddressMap = new HashMap<Integer, int[]>();
 		for(int i=0; i<AppSettings.numRows; i++) {
 			for(int j=0; j<AppSettings.numColumns; j++) {
-				System.out.println("Adding address: " + Integer.parseInt(AppSettings.gridAddress[(i*AppSettings.numRows) + j],2));
+				//System.out.println("Adding address: " + Integer.parseInt(AppSettings.gridAddress[(i*AppSettings.numRows) + j],2));
 //				gridAddressMap.put(AppSettings.gridAddress[(i*AppSettings.numRows) + j], new int[]{i,j});
 				DataController.gridAddressMap.put(Integer.parseInt(AppSettings.gridAddress[(i*AppSettings.numRows) + j],2), new int[]{i,j});
 			}
 		}		
 		// Prepare trace array
-//		IAxis chartAxis = new IAxis(new LabelFormatterDate(DateFormat.getDateInstance()));
 		for(int i=0; i<AppSettings.numDataPts; i++) {
 			DataController.dataTrace.add(new Trace2DLtd(50));
 			DataController.dataTrace.get(i).setColor(Color.BLUE);
 			DataController.dataTrace.get(i).setName("");
-//			DataController.chartsArray.add(new ChartObject(dataTrace.get(i)));
 			DataController.chartsArray.add(new Chart2D());
 			DataController.chartsArray.get(i).addTrace(DataController.dataTrace.get(i));
 			DataController.chartsArray.get(i).setMinimumSize(new Dimension(AppSettings.widthRect, AppSettings.heightRect));
 			DataController.chartsArray.get(i).setPreferredSize(new Dimension(AppSettings.widthRect, AppSettings.heightRect));
 			// Set axis format
 			IAxis xAxis = DataController.chartsArray.get(i).getAxisX();
-			xAxis.setFormatter(new LabelFormatterDate(new SimpleDateFormat("HH:mm:ss")));
+			xAxis.setFormatter(new LabelFormatterDate(new SimpleDateFormat("ss")));
 			xAxis.setTitle("Time");
-//			chartAxis.setFormatter(new LabelFormatterDate(new SimpleDateFormat("HH:mm:ss:SSS")));
 			IAxis yAxis = DataController.chartsArray.get(i).getAxisY();
-			//yAxis.setTitle("Capacitance");
+			yAxis.setTitle("Capacitance");
 
 			//set constant Y axis range
 			IRangePolicy rangePolicy = new RangePolicyFixedViewport(new Range(minRange, maxRange));

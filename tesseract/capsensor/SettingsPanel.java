@@ -34,9 +34,9 @@ public class SettingsPanel extends JPanel {
 	public static final JButton comPortButton = new JButton(serialInitializeString);
 
 	// Display settings components
-	public static final JRadioButton graphViewBtn = new JRadioButton("Graph View");
-	public static final JRadioButton capViewBtn = new JRadioButton("Capacitance");
-	public static final ButtonGroup displaySettings = new ButtonGroup();
+	//public static final JRadioButton graphViewBtn = new JRadioButton("Graph View");
+	//public static final JRadioButton capViewBtn = new JRadioButton("Capacitance");
+	//public static final ButtonGroup displaySettings = new ButtonGroup();
 	private static final String displayCapString = "Capacitance view";
 	private static final String displayGraphString = "Graph view";
 	private static final String[] displayOptions = {displayCapString, displayGraphString};
@@ -116,7 +116,8 @@ public class SettingsPanel extends JPanel {
 		layout.putConstraint(SpringLayout.WEST, comPortButton, 20, SpringLayout.WEST, this);
 		layout.putConstraint(SpringLayout.NORTH, comPortButton, 10, SpringLayout.SOUTH, comPortField);
 		layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, comPortButton, 0, SpringLayout.HORIZONTAL_CENTER, this);
-		
+
+		/*
 		// Initialize display settings combo box
 		capViewBtn.setSelected(true);
 		capViewBtn.addActionListener(new ActionListener() {
@@ -124,6 +125,7 @@ public class SettingsPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				InterfaceFunct.displayMode = InterfaceFunct.CAPACITANCE_MODE;
 				DataController.findTouchPoints();
+				FrameUtil.updateMatrix(); // TODO double check
 			}			
 		});
 		graphViewBtn.setSelected(false);
@@ -132,14 +134,16 @@ public class SettingsPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				InterfaceFunct.displayMode = InterfaceFunct.GRAPH_MODE;
 				FrameUtil.updateMatrix();
-			}			
+			}
 		});
+
 		displaySettings.add(capViewBtn);
 		displaySettings.add(graphViewBtn);		
 		JPanel displaySettingsButtons = new JPanel();
 		displaySettingsButtons.add(capViewBtn);
 		displaySettingsButtons.add(graphViewBtn);
-		
+		*/
+
 		displaySettingsList = new JComboBox<String>(displayOptions);
 		displaySettingsList.setSelectedIndex(0);
 		displaySettingsList.addActionListener(new ActionListener() {
@@ -244,17 +248,30 @@ public class SettingsPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Float tmpThresholdPress = Float.valueOf(SettingsPanel.threshPressField.getText())/100f;
-				if(tmpThresholdPress >= 0 && tmpThresholdPress != null) {
+				if(tmpThresholdPress != null) {
 					AppSettings.relDiffPress = tmpThresholdPress;
 					CapMatrix.debugText = "Settings updated.";
 					FrameUtil.updateDebugText();
+					System.out.println("---- updated values to " + tmpThresholdPress);
 				} else {
 					CapMatrix.debugText = "Invalid press threshold value - keeping previous value";
 					FrameUtil.updateDebugText();
 					return;
 				}
+
+				Float tmpThresholdHover = Float.valueOf(SettingsPanel.threshHoverField.getText())/100f;
+				if(tmpThresholdHover != null) {
+					AppSettings.relDiffHover = tmpThresholdPress;
+					CapMatrix.debugText = "Settings updated.";
+					FrameUtil.updateDebugText();
+				} else {
+					CapMatrix.debugText = "Invalid hover threshold value - keeping previous value";
+					FrameUtil.updateDebugText();
+					return;
+				}
+
 				Float tmpThresholdRelease = Float.valueOf(SettingsPanel.threshReleaseField.getText())/100f;
-				if(tmpThresholdRelease >= 0 && tmpThresholdRelease != null) {
+				if(tmpThresholdRelease != null) {
 					AppSettings.relDiffRelease = tmpThresholdRelease;
 					CapMatrix.debugText = "Settings updated.";
 					FrameUtil.updateDebugText();

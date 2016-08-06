@@ -57,30 +57,7 @@ public class GridObject extends JPanel {
 		else
 			this.setBackground(computeColor());
 	}
-	
-	/*public void paint(Graphics g) {
-		super.paint(g);
-		// Draw the background color
-		g.drawRect(AppSettings.xPosRect, AppSettings.yPosRect, AppSettings.widthRect, AppSettings.heightRect);
-		if(gridColor != null)
-			g.setColor(gridColor);
-		else
-			g.setColor(computeColor());
-		g.fillRect(AppSettings.xPosFill, AppSettings.yPosFill, AppSettings.widthFill, AppSettings.heightFill);
-		// Draw the object text
-		g.setColor(Color.black);
-		g.setFont(new Font("Arial", Font.BOLD, 14));
-		// Calculate coordinates for centering text in grid object
-		FontMetrics font = g.getFontMetrics();
-		int px = (int)(AppSettings.widthRect*scale/2 - font.getStringBounds(gridLabel, g).getWidth()/2);
-		int py = (int)(AppSettings.heightRect*scale/2 + (font.getAscent() - font.getDescent() + font.getLeading())/2);
-		g.drawString(gridLabel, px, py);
-	}*/
-	
-	/*public Dimension getPreferredSize() {
-		return new Dimension(AppSettings.widthRect, AppSettings.heightRect);
-	}*/
-	
+
 	private Color computeColor() {
 		String capacitancePattern = "(\\d*.\\d*) pF";
 		Pattern pattern = Pattern.compile(capacitancePattern);
@@ -91,7 +68,7 @@ public class GridObject extends JPanel {
 			if (!DataController.baselineThresholdMap.containsKey(gridAddress))
 				return AppSettings.COLOR_DEFAULT;
 			// If relative difference between capacitance and reference thresholds exceeds the defined relDiffPress, this is a press
-			if (capValue >= DataController.baselineThresholdMap.get(gridAddress)*AppSettings.relDiffPress) {
+			if (capValue <= DataController.baselineThresholdMap.get(gridAddress)*AppSettings.relDiffPress) {
 				return AppSettings.COLOR_PRESS;
 			}
 			// If relative difference between capacitance and reference thresholds is below the defined relDiffHover, this is a hover
