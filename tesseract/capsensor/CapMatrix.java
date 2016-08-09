@@ -35,10 +35,6 @@ public class CapMatrix extends JPanel {
 	protected static final String DEBUG_WAIT_CALIBRATE = "Calibrating baseline...";
 	private static final String DEBUG_START = "Application started.";
 
-	// GUI Max and Min Range
-	protected static double minRange = 1.5;
-	protected static double maxRange = 2.5;
-
 	// Timing variables
 	private static int indexRead = 0;
 	private static DateFormat indexStart;
@@ -86,7 +82,7 @@ public class CapMatrix extends JPanel {
 	/**
 	 * Function for preparing data structures for initial run-through
 	 */
-	private static void prepareDataStructures() {
+	public static void prepareDataStructures() {
 		// Prepare hash map
 		DataController.gridAddressMap = new HashMap<Integer, int[]>();
 		for(int i=0; i<AppSettings.numRows; i++) {
@@ -95,7 +91,8 @@ public class CapMatrix extends JPanel {
 //				gridAddressMap.put(AppSettings.gridAddress[(i*AppSettings.numRows) + j], new int[]{i,j});
 				DataController.gridAddressMap.put(Integer.parseInt(AppSettings.gridAddress[(i*AppSettings.numRows) + j],2), new int[]{i,j});
 			}
-		}		
+		}
+
 		// Prepare trace array
 		for(int i=0; i<AppSettings.numDataPts; i++) {
 			DataController.dataTrace.add(new Trace2DLtd(50));
@@ -113,12 +110,12 @@ public class CapMatrix extends JPanel {
 			yAxis.setTitle("Capacitance");
 
 			//set constant Y axis range
-			IRangePolicy rangePolicy = new RangePolicyFixedViewport(new Range(minRange, maxRange));
+			IRangePolicy rangePolicy = new RangePolicyFixedViewport(new Range(AppSettings.minRange, AppSettings.maxRange));
 			DataController.chartsArray.get(i).getAxisY().setRangePolicy(rangePolicy);
 
 		}
 	}
-	
+
 
 
 

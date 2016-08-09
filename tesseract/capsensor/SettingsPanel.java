@@ -1,5 +1,9 @@
 package capsensor;
 
+import info.monitorenter.gui.chart.IRangePolicy;
+import info.monitorenter.gui.chart.rangepolicies.RangePolicyFixedViewport;
+import info.monitorenter.util.Range;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -19,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+import javax.xml.crypto.Data;
 
 
 public class SettingsPanel extends JPanel {
@@ -27,16 +32,14 @@ public class SettingsPanel extends JPanel {
 	// Constant strings
 	public static final String serialInitializeString = "Initialize Port";
 	public static final String serialDisconnectString = "Disconnect Port";
-	private static final String updateSettingsString = "Update Thresholds";
-	
+	private static final String updateString = "Update";
+	private static final String updateBaselinesString = "Update Baselines";
+
 	// Serial port components	
 	public static final JTextField comPortField = new JTextField(AppSettings.serialPortNumber);
 	public static final JButton comPortButton = new JButton(serialInitializeString);
 
 	// Display settings components
-	//public static final JRadioButton graphViewBtn = new JRadioButton("Graph View");
-	//public static final JRadioButton capViewBtn = new JRadioButton("Capacitance");
-	//public static final ButtonGroup displaySettings = new ButtonGroup();
 	private static final String displayCapString = "Capacitance view";
 	private static final String displayGraphString = "Graph view";
 	private static final String[] displayOptions = {displayCapString, displayGraphString};
@@ -60,8 +63,16 @@ public class SettingsPanel extends JPanel {
 	public static final JTextField threshHoverField = new JTextField(Float.toString(AppSettings.relDiffHover * 100f));
 	public static final JTextField threshPressField = new JTextField(Float.toString(AppSettings.relDiffPress * 100f));
 	public static final JTextField threshReleaseField = new JTextField(Float.toString(AppSettings.relDiffRelease * 100f));
-	public static final JButton updateButton = new JButton(updateSettingsString);
-		
+	public static final JButton updateThresholdButton = new JButton(updateString);
+
+	// Min and max range of graphs
+	public static final JTextField minRangeField = new JTextField();
+	public static final JTextField maxRangeField = new JTextField();
+	public static final JButton updateRangeButton = new JButton(updateString);
+
+	// Update baselines button
+	public static final JButton updateBaselinesButton = new JButton(updateBaselinesString);
+
 	// System state variables
 	public static Boolean isConnected = false;
 	
@@ -117,33 +128,7 @@ public class SettingsPanel extends JPanel {
 		layout.putConstraint(SpringLayout.NORTH, comPortButton, 10, SpringLayout.SOUTH, comPortField);
 		layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, comPortButton, 0, SpringLayout.HORIZONTAL_CENTER, this);
 
-		/*
 		// Initialize display settings combo box
-		capViewBtn.setSelected(true);
-		capViewBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				InterfaceFunct.displayMode = InterfaceFunct.CAPACITANCE_MODE;
-				DataController.findTouchPoints();
-				FrameUtil.updateMatrix(); // TODO double check
-			}			
-		});
-		graphViewBtn.setSelected(false);
-		graphViewBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				InterfaceFunct.displayMode = InterfaceFunct.GRAPH_MODE;
-				FrameUtil.updateMatrix();
-			}
-		});
-
-		displaySettings.add(capViewBtn);
-		displaySettings.add(graphViewBtn);		
-		JPanel displaySettingsButtons = new JPanel();
-		displaySettingsButtons.add(capViewBtn);
-		displaySettingsButtons.add(graphViewBtn);
-		*/
-
 		displaySettingsList = new JComboBox<String>(displayOptions);
 		displaySettingsList.setSelectedIndex(0);
 		displaySettingsList.addActionListener(new ActionListener() {
@@ -244,7 +229,7 @@ public class SettingsPanel extends JPanel {
 		
 		
 		// Initialize update button
-		updateButton.addActionListener(new ActionListener() {
+		updateThresholdButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Float tmpThresholdPress = Float.valueOf(SettingsPanel.threshPressField.getText())/100f;
@@ -252,7 +237,6 @@ public class SettingsPanel extends JPanel {
 					AppSettings.relDiffPress = tmpThresholdPress;
 					CapMatrix.debugText = "Settings updated.";
 					FrameUtil.updateDebugText();
-					System.out.println("---- updated values to " + tmpThresholdPress);
 				} else {
 					CapMatrix.debugText = "Invalid press threshold value - keeping previous value";
 					FrameUtil.updateDebugText();
@@ -279,14 +263,105 @@ public class SettingsPanel extends JPanel {
 					CapMatrix.debugText = "Invalid release threshold value - keeping previous value";
 					FrameUtil.updateDebugText();
 					return;
-				} // TODO ADD HOVER
+				}
 			}
 		});
-		this.add(updateButton);
-		layout.putConstraint(SpringLayout.WEST, updateButton, 20, SpringLayout.WEST, this);
-		layout.putConstraint(SpringLayout.NORTH, updateButton, 10, SpringLayout.SOUTH, threshReleaseField);
-		layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, updateButton, 0, SpringLayout.HORIZONTAL_CENTER, this);
-		
+		this.add(updateThresholdButton);
+		layout.putConstraint(SpringLayout.WEST, updateThresholdButton, 20, SpringLayout.WEST, this);
+		layout.putConstraint(SpringLayout.NORTH, updateThresholdButton, 10, SpringLayout.SOUTH, threshReleaseField);
+		layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, updateThresholdButton, 0, SpringLayout.HORIZONTAL_CENTER, this);
+
+
+
+		// Initialize range fields
+		JLabel minRangeLabel = new JLabel("Range min:");
+		this.add(minRangeLabel);
+		this.add(minRangeField);
+		layout.putConstraint(SpringLayout.WEST, minRangeLabel, 20, SpringLayout.WEST, this);
+		layout.putConstraint(SpringLayout.NORTH, minRangeLabel, 15, SpringLayout.SOUTH, updateThresholdButton);
+		layout.putConstraint(SpringLayout.WEST, minRangeField, 5, SpringLayout.EAST, minRangeLabel);
+		layout.putConstraint(SpringLayout.NORTH, minRangeField, 15, SpringLayout.SOUTH, updateThresholdButton);
+		layout.putConstraint(SpringLayout.EAST, threshPressField, 0, SpringLayout.EAST, minRangeField);
+
+		JLabel maxRangeLabel = new JLabel("Range max:");
+		this.add(maxRangeLabel);
+		this.add(maxRangeField);
+		layout.putConstraint(SpringLayout.WEST, maxRangeLabel, 20, SpringLayout.WEST, this);
+		layout.putConstraint(SpringLayout.NORTH, maxRangeLabel, 15, SpringLayout.SOUTH, minRangeField);
+		layout.putConstraint(SpringLayout.WEST, maxRangeField, 5, SpringLayout.EAST, maxRangeLabel);
+		layout.putConstraint(SpringLayout.NORTH, maxRangeField, 15, SpringLayout.SOUTH, minRangeField);
+		layout.putConstraint(SpringLayout.EAST, minRangeField, 0, SpringLayout.EAST, maxRangeField);
+
+
+		// Initialize update range button
+		updateRangeButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				try{
+					AppSettings.minRange = Double.parseDouble(SettingsPanel.minRangeField.getText());
+					CapMatrix.debugText = "Settings updated.";
+					FrameUtil.updateDebugText();
+
+					DataController.dataTrace.clear();
+					DataController.chartsArray.clear();
+
+					CapMatrix.prepareDataStructures();
+					FrameUtil.updateMatrix();
+				} catch (NumberFormatException n){
+					CapMatrix.debugText = "Invalid min value - keeping previous value";
+					FrameUtil.updateDebugText();
+					return;
+				}
+
+				try{
+					AppSettings.maxRange = Double.parseDouble(SettingsPanel.maxRangeField.getText());
+					CapMatrix.debugText = "Settings updated.";
+					FrameUtil.updateDebugText();
+
+					DataController.dataTrace.clear();
+					DataController.chartsArray.clear();
+
+					CapMatrix.prepareDataStructures();
+					FrameUtil.updateMatrix();
+				} catch (NumberFormatException f) {
+					CapMatrix.debugText = "Invalid max value - keeping previous value";
+					FrameUtil.updateDebugText();
+					return;
+				}
+
+
+			}
+		});
+		this.add(updateRangeButton);
+		layout.putConstraint(SpringLayout.WEST, updateRangeButton, 20, SpringLayout.WEST, this);
+		layout.putConstraint(SpringLayout.NORTH, updateRangeButton, 10, SpringLayout.SOUTH, maxRangeField);
+		layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, updateRangeButton, 0, SpringLayout.HORIZONTAL_CENTER, this);
+
+
+		// Initialize update range button
+		updateBaselinesButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				try{
+					DataController.updateBaselines();
+					FrameUtil.updateDebugText();
+					FrameUtil.updateMatrix();
+				} catch (IOException e1){
+					CapMatrix.debugText = "Error updating baselines";
+					FrameUtil.updateDebugText();
+					return;
+				}
+
+			}
+		});
+		this.add(updateBaselinesButton);
+		layout.putConstraint(SpringLayout.WEST, updateBaselinesButton, 20, SpringLayout.WEST, this);
+		layout.putConstraint(SpringLayout.NORTH, updateBaselinesButton, 10, SpringLayout.SOUTH, updateRangeButton);
+		layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, updateBaselinesButton, 0, SpringLayout.HORIZONTAL_CENTER, this);
+
+
 		// Initially disable panel
 		disablePanel();
 	}
@@ -305,7 +380,7 @@ public class SettingsPanel extends JPanel {
 		// Enable touch mode settings
 		touchSettingsList.setEnabled(true);
 		// Enable update button
-		updateButton.setEnabled(true);
+		updateThresholdButton.setEnabled(true);
 	}
 	
 	public static void disablePanel() {
@@ -322,7 +397,7 @@ public class SettingsPanel extends JPanel {
 		// Disable touch mode settings
 		touchSettingsList.setEnabled(false);
 		// Disable update button
-		updateButton.setEnabled(false);
+		updateThresholdButton.setEnabled(false);
 	}
 	
 }

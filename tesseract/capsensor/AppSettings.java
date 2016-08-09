@@ -69,8 +69,8 @@ public class AppSettings {
 	static final HashMap<String,Integer> rowMap = new HashMap<String,Integer>();
 	
 	// Touch threshold values
-	public static Float relDiffHover= -0.02f;
-	public static Float relDiffPress = -0.06f;
+	public static Float relDiffHover= -0.07f;
+	public static Float relDiffPress = -0.1f;
 	public static Float relDiffRelease = 0.04f;
 	
 	// Filtering parameters
@@ -78,6 +78,10 @@ public class AppSettings {
 	public static int slewRateSampleCounter = 0;
 	public static int slewRateSetCounter = 0;
 	public static final int slewRateSetsPerUpdate = 4;
+
+	// GUI Max and Min Range
+	protected static double minRange = 1.5;
+	protected static double maxRange = 2.5;
 
 
 	private static void prepareMap() {

@@ -121,6 +121,18 @@ public class DataController {
 
     }
 
+    protected static void updateBaselines()
+            throws IOException {
+
+        for (Object key: processedCap.keySet()){
+            Float cap = processedCap.get(key);
+
+            addBaselinePoint((Integer)key, cap);
+        }
+
+        System.out.println("baselines reset = " + baselineThresholdMap.toString());
+
+    }
 
     private static void addBaselinePoint(Integer gridAddress, Float capValue)
             throws IOException {
