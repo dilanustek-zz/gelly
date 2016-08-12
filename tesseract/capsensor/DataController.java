@@ -293,7 +293,6 @@ public class DataController {
                 // Update debug text
                 CapMatrix.debugText = "Applying threshold touch recognition.";
                 FrameUtil.updateDebugText();
-//				System.out.println(debugText);
                 break;
             case InterfaceFunct.TOUCH_1PTMAX:
                 // Find the coordinates of the max absolute difference - only suitable for one touch point

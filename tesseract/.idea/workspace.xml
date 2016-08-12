@@ -107,8 +107,8 @@
       <file leaf-file-name="DataController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/capsensor/DataController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="448">
-              <caret line="287" column="17" selection-start-line="287" selection-start-column="17" selection-end-line="287" selection-end-column="17" />
+            <state relative-caret-position="260">
+              <caret line="351" column="103" selection-start-line="351" selection-start-column="103" selection-end-line="351" selection-end-column="103" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#547#556#0" expanded="true" />
@@ -991,8 +991,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/capsensor/DataController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="448">
-          <caret line="287" column="17" selection-start-line="287" selection-start-column="17" selection-end-line="287" selection-end-column="17" />
+        <state relative-caret-position="260">
+          <caret line="351" column="103" selection-start-line="351" selection-start-column="103" selection-end-line="351" selection-end-column="103" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#547#556#0" expanded="true" />
