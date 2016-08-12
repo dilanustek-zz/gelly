@@ -267,36 +267,23 @@ public class DataController {
                 }
                 // Check for new touch points - Update the values of the panel holder
                 for(int i=0; i<AppSettings.numColumns; i++) {
-                    for(int j=0; j<AppSettings.numRows; j++) {
-                        Integer gridAddress = Integer.parseInt(AppSettings.gridAddress[((i)*AppSettings.numColumns) + (j)],2);
-// TODO add null check for relCapDiff.get(gridAddress)
-                        if(InterfaceFunct.displayMode == InterfaceFunct.CAPACITANCE_MODE) {
-                            Float relCap = relCapDiff.get(gridAddress)*100f;
-                            DecimalFormat df = new DecimalFormat("#0.00");
+                    for (int j = 0; j < AppSettings.numRows; j++) {
+                        Integer gridAddress = Integer.parseInt(AppSettings.gridAddress[((i) * AppSettings.numColumns) + (j)], 2);
+                        Float cap = relCapDiff.get(gridAddress);
+                        if (cap != null) {
+                            if (InterfaceFunct.displayMode == InterfaceFunct.CAPACITANCE_MODE) {
+                                Float relCap = cap * 100f;
+                                DecimalFormat df = new DecimalFormat("#0.00");
 
-                            FrameUtil.panelHolder[i][j] = new GridObject(gridAddress, processedCap.get(gridAddress)
+                                FrameUtil.panelHolder[i][j] = new GridObject(gridAddress, processedCap.get(gridAddress)
                                         + " pF", df.format(relCap) + "%", InterfaceFunct.calculateColor(gridAddress));
 
-                        } else if(InterfaceFunct.displayMode == InterfaceFunct.GRAPH_MODE) {
-                            // If this gridAddress is a known touch point, we can continue to next grid address
-                            if(touchPoints.contains(gridAddress)) {
+                            } else if (InterfaceFunct.displayMode == InterfaceFunct.GRAPH_MODE) {
                                 chartsArray.get(gridAddress).setBackground(InterfaceFunct.calculateColor(gridAddress));
-//								continue;
-                                System.out.println("already a touch point exists at " + gridAddress);
+                                FrameUtil.panelHolder[i][j] = chartsArray.get(gridAddress);
                             }
-                            // Otherwise, check for new touch points
-                            else if(relCapDiff.get(gridAddress) < AppSettings.relDiffPress) {
-                                Color clr = InterfaceFunct.calculateColor(gridAddress);
-                                chartsArray.get(gridAddress).setBackground(clr);
-                                System.out.println("NEW touch point at " + gridAddress + "   " + clr.toString()) ;
-
-                            } else {
-                                chartsArray.get(gridAddress).setBackground(InterfaceFunct.calculateColor(gridAddress));
-                            }
-
-                            FrameUtil.panelHolder[i][j] = chartsArray.get(gridAddress);
+                            FrameUtil.panelHolder[i][j].setBorder(BorderFactory.createLineBorder(Color.black, 1));
                         }
-                        FrameUtil.panelHolder[i][j].setBorder(BorderFactory.createLineBorder(Color.black, 1));
                     }
                 }
                 // Update matrix
