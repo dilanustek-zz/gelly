@@ -2,10 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="50c38abd-f7ff-422f-b16c-febdd6db9049" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/tesseract/capsensor/AppSettings.class" afterPath="$PROJECT_DIR$/out/production/tesseract/capsensor/AppSettings.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/tesseract/capsensor/SettingGroupPanel.class" afterPath="$PROJECT_DIR$/out/production/tesseract/capsensor/SettingGroupPanel.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/tesseract/capsensor/SettingsPanel$1.class" afterPath="$PROJECT_DIR$/out/production/tesseract/capsensor/SettingsPanel$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/tesseract/capsensor/SettingsPanel$2.class" afterPath="$PROJECT_DIR$/out/production/tesseract/capsensor/SettingsPanel$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/tesseract/capsensor/SettingsPanel$3.class" afterPath="$PROJECT_DIR$/out/production/tesseract/capsensor/SettingsPanel$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/tesseract/capsensor/SettingsPanel$4.class" afterPath="$PROJECT_DIR$/out/production/tesseract/capsensor/SettingsPanel$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/tesseract/capsensor/SettingsPanel$5.class" afterPath="$PROJECT_DIR$/out/production/tesseract/capsensor/SettingsPanel$5.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/tesseract/capsensor/SettingsPanel.class" afterPath="$PROJECT_DIR$/out/production/tesseract/capsensor/SettingsPanel.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../logs/newlog.csv" afterPath="$PROJECT_DIR$/../logs/newlog.csv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/capsensor/AppSettings.java" afterPath="$PROJECT_DIR$/capsensor/AppSettings.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/capsensor/DataController.java" afterPath="$PROJECT_DIR$/capsensor/DataController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/capsensor/GridObject.java" afterPath="$PROJECT_DIR$/capsensor/GridObject.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/capsensor/InterfaceFunct.java" afterPath="$PROJECT_DIR$/capsensor/InterfaceFunct.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/capsensor/SettingsPanel.java" afterPath="$PROJECT_DIR$/capsensor/SettingsPanel.java" />
     </list>
     <ignored path="tesseract.iws" />
@@ -40,11 +48,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SettingsPanel.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SettingsPanel.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/capsensor/SettingsPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="231">
-              <caret line="212" column="28" selection-start-line="212" selection-start-column="21" selection-end-line="212" selection-end-column="28" />
+            <state relative-caret-position="450">
+              <caret line="119" column="92" selection-start-line="119" selection-start-column="92" selection-end-line="119" selection-end-column="92" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -74,11 +82,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AppSettings.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AppSettings.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/capsensor/AppSettings.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="305">
-              <caret line="67" column="4" selection-start-line="67" selection-start-column="4" selection-end-line="67" selection-end-column="4" />
+            <state relative-caret-position="238">
+              <caret line="64" column="24" selection-start-line="64" selection-start-column="24" selection-end-line="64" selection-end-column="24" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -111,12 +119,14 @@
       <file leaf-file-name="DataController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/capsensor/DataController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
-              <caret line="280" column="17" selection-start-line="280" selection-start-column="17" selection-end-line="280" selection-end-column="17" />
+            <state relative-caret-position="403">
+              <caret line="274" column="28" selection-start-line="274" selection-start-column="28" selection-end-line="274" selection-end-column="74" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1543#1552#0" expanded="true" />
-                <element signature="e#1720#1736#0" expanded="true" />
+                <element signature="e#547#556#0" expanded="true" />
+                <element signature="e#1120#1129#0" expanded="true" />
+                <element signature="e#1297#1313#0" expanded="true" />
+                <element signature="e#1471#1487#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -125,7 +135,7 @@
       <file leaf-file-name="InterfaceFunct.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/capsensor/InterfaceFunct.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="332">
+            <state relative-caret-position="338">
               <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -163,10 +173,10 @@
         <option value="$PROJECT_DIR$/capsensor/FilterUtil.java" />
         <option value="$PROJECT_DIR$/capsensor/CapMatrix.java" />
         <option value="$PROJECT_DIR$/capsensor/InterfaceFunct.java" />
-        <option value="$PROJECT_DIR$/capsensor/DataController.java" />
         <option value="$PROJECT_DIR$/capsensor/GridObject.java" />
-        <option value="$PROJECT_DIR$/capsensor/SettingsPanel.java" />
+        <option value="$PROJECT_DIR$/capsensor/DataController.java" />
         <option value="$PROJECT_DIR$/capsensor/AppSettings.java" />
+        <option value="$PROJECT_DIR$/capsensor/SettingsPanel.java" />
       </list>
     </option>
   </component>
@@ -497,12 +507,12 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3431498" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.045544554" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21089108" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25742576" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2920792" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290653" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14057508" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -953,24 +963,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/capsensor/InterfaceFunct.java">
+    <entry file="file://$PROJECT_DIR$/capsensor/DataController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="332">
-          <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
+        <state relative-caret-position="403">
+          <caret line="274" column="28" selection-start-line="274" selection-start-column="28" selection-end-line="274" selection-end-column="74" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#547#556#0" expanded="true" />
+            <element signature="e#1120#1129#0" expanded="true" />
+            <element signature="e#1297#1313#0" expanded="true" />
+            <element signature="e#1471#1487#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/capsensor/DataController.java">
+    <entry file="file://$PROJECT_DIR$/capsensor/InterfaceFunct.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="280" column="17" selection-start-line="280" selection-start-column="17" selection-end-line="280" selection-end-column="17" />
+        <state relative-caret-position="338">
+          <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1543#1552#0" expanded="true" />
-            <element signature="e#1720#1736#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -983,20 +995,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/capsensor/SettingsPanel.java">
+    <entry file="file://$PROJECT_DIR$/capsensor/AppSettings.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="212" column="28" selection-start-line="212" selection-start-column="21" selection-end-line="212" selection-end-column="28" />
+        <state relative-caret-position="238">
+          <caret line="64" column="24" selection-start-line="64" selection-start-column="24" selection-end-line="64" selection-end-column="24" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/capsensor/AppSettings.java">
+    <entry file="file://$PROJECT_DIR$/capsensor/SettingsPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="67" column="4" selection-start-line="67" selection-start-column="4" selection-end-line="67" selection-end-column="4" />
+        <state relative-caret-position="450">
+          <caret line="119" column="92" selection-start-line="119" selection-start-column="92" selection-end-line="119" selection-end-column="92" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

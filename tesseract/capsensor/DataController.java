@@ -18,13 +18,9 @@ import java.util.regex.Pattern;
  */
 public class DataController {
 
-    // Cell states
-    protected static HashMap<Integer, Integer> cellStateMap = new HashMap<Integer, Integer>();
-    //	private static HashMap<Integer, Integer> touchPoints = new HashMap<Integer, Integer>();
+    // Touch pts
     protected static HashSet<Integer> touchPoints = new HashSet<Integer>();
-    protected static final int STATE_IDLE = 0;
-    protected static final int STATE_HOVER = 1;
-    protected static final int STATE_PRESS = 2;
+
     // Matrix variables
     protected static HashMap<Integer,int[]> gridAddressMap = new HashMap<Integer, int[]>();
 
@@ -33,7 +29,6 @@ public class DataController {
 
     // Saved traces of capacitance values for graphing
     protected static ArrayList<ITrace2D> dataTrace = new ArrayList<ITrace2D>();
-    //	private static ArrayList<ChartObject> chartsArray = new ArrayList<ChartObject>();
     protected static long startTime = System.currentTimeMillis();	// Used to help set the x-axis for graphing
     protected static ArrayList<Chart2D> chartsArray = new ArrayList<Chart2D>();
 
@@ -46,13 +41,9 @@ public class DataController {
 
     // Regex patterns for parsing data from Arduino
     private static final String patternDataTransmission = "^\\((\\d+)\\)\\s*(\\d*\\.*\\d+)";
-    private static final String patternDataBaseline = "^BASELINE\\s*\\((\\d+)\\)\\s*(\\d*\\.*\\d+)";
 
     // Baseline parameters
     private static int baselineCount = 0;
-
-    // Touch flag to make sure baseline is not obtained during touch
-    protected static boolean touchFlag = false;
 
     // Keep 4 cap values for each cell to average later
     private static Multimap<Integer, Float> fourCaps = ArrayListMultimap.create();
@@ -70,12 +61,7 @@ public class DataController {
             if (matcher.groupCount() == 2) {
                 Integer gridAddress = Integer.parseInt(matcher.group(1),2);
                 Float capValue = Float.parseFloat(matcher.group(2));
-                if (gridAddress == 0)
-                    System.out.println(gridAddress + "  " + capValue);
 
-                   // if (relCapDiff != null && relCapDiff.size()==AppSettings.numDataPts) {
-                    //    findTouchPoints();
-                   // }
                 // Check if command is for setting data baseline
                 if (baselineThresholdMap.size() == AppSettings.numDataPts){
                     addCapacitancePoint(gridAddress, capValue);
@@ -283,7 +269,7 @@ public class DataController {
                 for(int i=0; i<AppSettings.numColumns; i++) {
                     for(int j=0; j<AppSettings.numRows; j++) {
                         Integer gridAddress = Integer.parseInt(AppSettings.gridAddress[((i)*AppSettings.numColumns) + (j)],2);
-
+// TODO add null check for relCapDiff.get(gridAddress)
                         if(InterfaceFunct.displayMode == InterfaceFunct.CAPACITANCE_MODE) {
                             Float relCap = relCapDiff.get(gridAddress)*100f;
                             DecimalFormat df = new DecimalFormat("#0.00");

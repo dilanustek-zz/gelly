@@ -48,7 +48,6 @@ public class AppSettings {
 	private static final String tagColumn = "Number of columns:";
 	private static final String tagSerialPort = "Arduino serial port:";
 	private static final String tagGridAddress = "Grid matrix addresses:";
-	private static final String tagThresholdHover = "Relative ratio for hover:";
 	private static final String tagThresholdPress = "Relative ratio for press:";
 	private static final String tagThresholdRelease = "Relative ratio for release:";
 	private static final String patternRowString = "Number of rows:\\s*(\\d+)";
@@ -63,10 +62,9 @@ public class AppSettings {
 	static final HashMap<String,Integer> rowMap = new HashMap<String,Integer>();
 	
 	// Touch threshold values
-	//public static Float relDiffHover= -0.07f;
 	public static Float relDiffPress = -0.15f;
-	public static Float relDiffRelease = 0.15f;
-	
+	public static Float relDiffRelease = -0.05f;
+
 	// Filtering parameters
 	public static final float slewRateIncrement = 0.005f;
 	public static int slewRateSampleCounter = 0;
@@ -83,10 +81,9 @@ public class AppSettings {
 		rowMap.put(tagRow, 1);
 		rowMap.put(tagColumn, 2);
 		rowMap.put(tagSerialPort, 3);
-		rowMap.put(tagThresholdHover, 4);
 		rowMap.put(tagThresholdPress, 5);
 		rowMap.put(tagThresholdRelease, 6);
-		rowMap.put(tagGridAddress, 7);		
+		rowMap.put(tagGridAddress, 7);
 	}
 	
 	public static void readFile(String filePath) throws IOException {
@@ -134,18 +131,7 @@ public class AppSettings {
 					} else {
 						System.out.println("No serial port value read.");
 					}
-				}/* else if(lineNumber == rowMap.get(tagThresholdHover)) {
-					pattern = Pattern.compile(patternThresholdHover);
-					matcher = pattern.matcher(line);
-					if (matcher.find() && matcher.groupCount() == 1) {
-						tmpThresholdHover = Float.parseFloat(matcher.group(1).trim());
-						AppSettings.relDiffHover = tmpThresholdHover < 1 && tmpThresholdHover != null ? tmpThresholdHover/100f : AppSettings.relDiffHover;
-//						System.out.println("Hover threshold read: " + matcher.group(1).trim());
-						System.out.println("Hover threshold read: " + AppSettings.relDiffHover);
-					} else {
-						System.out.println("No hover threshold value read.");
-					}
-				}*/ else if(lineNumber == rowMap.get(tagThresholdPress)) {
+				} else if(lineNumber == rowMap.get(tagThresholdPress)) {
 					pattern = Pattern.compile(patternThresholdPress);
 					matcher = pattern.matcher(line);
 					if (matcher.find() && matcher.groupCount() == 1) {
@@ -162,10 +148,9 @@ public class AppSettings {
 					if (matcher.find() && matcher.groupCount() == 1) {
 						tmpThresholdRelease = Float.parseFloat(matcher.group(1).trim());
 						AppSettings.relDiffRelease = tmpThresholdRelease != null ? tmpThresholdRelease/100f : AppSettings.relDiffRelease;
-//						System.out.println("Press threshold read: " + matcher.group(1).trim());
 						System.out.println("Release threshold read: " + AppSettings.relDiffRelease);
 					} else {
-						System.out.println("No hover threshold value read.");
+						System.out.println("No Release threshold value read.");
 					}
 				} else if(lineNumber == rowMap.get(tagGridAddress)) {
 					if(line.equals(tagGridAddress)) {

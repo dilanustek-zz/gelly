@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -52,9 +53,9 @@ public class SettingsPanel extends JPanel {
 	private static JComboBox<String> touchSettingsList;
 	
 	// Threshold field components
-	//public static final JTextField threshHoverField = new JTextField(Float.toString(AppSettings.relDiffHover * 100f));
-	public static final JTextField threshPressField = new JTextField(Float.toString(AppSettings.relDiffPress * 100f));
-	public static final JTextField threshReleaseField = new JTextField(Float.toString(AppSettings.relDiffRelease * 100f));
+	static DecimalFormat df = new DecimalFormat("#0.0");
+	public static final JTextField threshPressField = new JTextField(df.format(AppSettings.relDiffPress * 100f));
+	public static final JTextField threshReleaseField = new JTextField(df.format(AppSettings.relDiffRelease * 100f));
 	public static final JButton updateThresholdButton = new JButton(updateString);
 
 	// Min and max range of graphs
@@ -194,14 +195,6 @@ public class SettingsPanel extends JPanel {
 		layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, touchSettingsPanel, 0, SpringLayout.HORIZONTAL_CENTER, this);
 				
 		// Initialize threshold fields
-		/*JLabel threshHoverLabel = new JLabel("Hover Change Threshold (%):");
-		this.add(threshHoverLabel);
-		this.add(threshHoverField);
-		layout.putConstraint(SpringLayout.WEST, threshHoverLabel, 20, SpringLayout.WEST, this);
-		layout.putConstraint(SpringLayout.NORTH, threshHoverLabel, 15, SpringLayout.SOUTH, touchSettingsPanel);
-		layout.putConstraint(SpringLayout.WEST, threshHoverField, 5, SpringLayout.EAST, threshHoverLabel);
-		layout.putConstraint(SpringLayout.NORTH, threshHoverField, 15, SpringLayout.SOUTH, touchSettingsPanel);
-		layout.putConstraint(SpringLayout.EAST, comPortField, 0, SpringLayout.EAST, threshHoverField); */
 		JLabel threshPressLabel = new JLabel("Touch Threshold (%):");
 		this.add(threshPressLabel);
 		this.add(threshPressField);
@@ -234,18 +227,7 @@ public class SettingsPanel extends JPanel {
 					FrameUtil.updateDebugText();
 					return;
 				}
-/*
-				Float tmpThresholdHover = Float.valueOf(SettingsPanel.threshHoverField.getText())/100f;
-				if(tmpThresholdHover != null) {
-					AppSettings.relDiffHover = tmpThresholdPress;
-					CapMatrix.debugText = "Settings updated.";
-					FrameUtil.updateDebugText();
-				} else {
-					CapMatrix.debugText = "Invalid hover threshold value - keeping previous value";
-					FrameUtil.updateDebugText();
-					return;
-				}
-*/
+
 				Float tmpThresholdRelease = Float.valueOf(SettingsPanel.threshReleaseField.getText())/100f;
 				if(tmpThresholdRelease != null) {
 					AppSettings.relDiffRelease = tmpThresholdRelease;
@@ -364,7 +346,6 @@ public class SettingsPanel extends JPanel {
 		// Enable display settings radio group
 		displaySettingsList.setEnabled(true);
 		// Enable threshold input fields
-		//threshHoverField.setEnabled(true);
 		threshPressField.setEnabled(true);
 		threshReleaseField.setEnabled(true);
 		// Enable filter settings radio group
@@ -381,7 +362,6 @@ public class SettingsPanel extends JPanel {
 		// Disable display settings radio group
 		displaySettingsList.setEnabled(false);
 		// Disable threshold input fields
-		//threshHoverField.setEnabled(false);
 		threshPressField.setEnabled(false);
 		threshReleaseField.setEnabled(false);
 		// Disable filter settings radio group
