@@ -21,15 +21,9 @@ public class AppSettings {
 	public static String[] gridAddress = {"0000","0001","0010","0011","0100","0101","0110","0111","1000","1001","1010","1011","1100","1101","1110","1111"};
 
 	// Grid object parameters
-	public static final int xPosRect = 0;
-	public static final int yPosRect = 0;
 	public static final int widthRect = 200;
 	public static final int heightRect = 150;
-	public static final int xPosFill = 5;
-	public static final int yPosFill = 5;
-	public static final int widthFill = 140;
-	public static final int heightFill = 140;
-	
+
 	// Color parameters
 	public static final Color COLOR_HOVER = Color.green;
 	public static final Color COLOR_PRESS = Color.red;

@@ -1,9 +1,5 @@
 package capsensor;
 
-import info.monitorenter.gui.chart.IRangePolicy;
-import info.monitorenter.gui.chart.rangepolicies.RangePolicyFixedViewport;
-import info.monitorenter.util.Range;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -13,17 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import javax.sound.sampled.Port;
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
-import javax.xml.crypto.Data;
 
 
 public class SettingsPanel extends JPanel {

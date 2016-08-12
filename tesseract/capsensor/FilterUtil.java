@@ -1,7 +1,6 @@
 package capsensor;
 
 
-import javax.xml.crypto.Data;
 
 /**
  * Created by dilanustek on 7/26/16.
@@ -59,7 +58,7 @@ public class FilterUtil {
         // Update debug text
         CapMatrix.debugText = "Applying slew rate filter.";
         FrameUtil.updateDebugText();
-//		System.out.println(debugText);
+
         // If no value is currently stored for this grid address, add this value to the current reading
         if(!DataController.processedCap.containsKey(gridAddress))
             DataController.processedCap.put(gridAddress, capValue);

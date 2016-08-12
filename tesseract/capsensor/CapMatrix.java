@@ -35,13 +35,6 @@ public class CapMatrix extends JPanel {
 	protected static final String DEBUG_WAIT_CALIBRATE = "Calibrating baseline...";
 	private static final String DEBUG_START = "Application started.";
 
-	// Timing variables
-	private static int indexRead = 0;
-	private static DateFormat indexStart;
-	private static DateFormat indexStop;
-	private static int indexMax = 1000;
-
-
 
 	public static void main(String[] a) {
 		// Try reading application settings from file
@@ -56,7 +49,6 @@ public class CapMatrix extends JPanel {
 		FrameUtil.frame = new JFrame();
 		FrameUtil.frame.setTitle(FrameUtil.frameTitle);
 		FrameUtil.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		FrameUtil.frame.setLayout(new GridLayout(numRows,numColumns));
 		FrameUtil.frame.setLayout(new GridBagLayout());
 		FrameUtil.frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -74,8 +66,6 @@ public class CapMatrix extends JPanel {
 		prepareDataStructures();
 		FrameUtil.addComponentsToFrame();
 		FrameUtil.frame.pack();
-//		f.setResizable(false);
-//		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		FrameUtil.frame.setVisible(true);
 	}
 	
@@ -105,9 +95,9 @@ public class CapMatrix extends JPanel {
 			// Set axis format
 			IAxis xAxis = DataController.chartsArray.get(i).getAxisX();
 			xAxis.setFormatter(new LabelFormatterDate(new SimpleDateFormat("ss")));
-			xAxis.setTitle("Time");
+			//xAxis.setTitle("Time");
 			IAxis yAxis = DataController.chartsArray.get(i).getAxisY();
-			yAxis.setTitle("Capacitance");
+			//yAxis.setTitle("Capacitance");
 
 			//set constant Y axis range
 			IRangePolicy rangePolicy = new RangePolicyFixedViewport(new Range(AppSettings.minRange, AppSettings.maxRange));

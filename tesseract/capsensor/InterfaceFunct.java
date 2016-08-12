@@ -2,9 +2,9 @@ package capsensor;
 
 
 import javax.swing.*;
-import javax.xml.crypto.Data;
 import java.awt.*;
-import java.util.HashMap;
+
+import static java.lang.Math.abs;
 
 /**
  * Created by dilanustek on 7/25/16.
@@ -68,6 +68,30 @@ public class InterfaceFunct {
             DataController.isDataTransmitting = false;
         }
         System.out.println("change touch mode");
+
+    }
+
+    /**
+     * Function for calculating color
+     */
+
+    protected static Color calculateColor(int gridAddress){
+
+        if (DataController.relCapDiff.get(gridAddress) < AppSettings.relDiffPress){
+            //there is a touch
+            return AppSettings.COLOR_PRESS;
+        } else if (DataController.relCapDiff.get(gridAddress) > 0) {
+            // increase of capacitance: no touch
+            return AppSettings.COLOR_DEFAULT;
+        } else {
+            //interpolate
+            int relDiff = (int) Math.ceil(AppSettings.relDiffPress * 100);
+            int capDiff = (int) Math.ceil(DataController.relCapDiff.get(gridAddress) *100f);
+
+            double unitDiff = -255/relDiff;
+
+            return new Color(255, (int) (abs(relDiff - capDiff) * unitDiff), (int) (abs(relDiff - capDiff) * unitDiff));
+        }
 
     }
 

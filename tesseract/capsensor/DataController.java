@@ -1,7 +1,6 @@
 package capsensor;
 
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import info.monitorenter.gui.chart.Chart2D;
 import info.monitorenter.gui.chart.ITrace2D;
@@ -279,23 +278,26 @@ public class DataController {
                 for(int i=0; i<AppSettings.numColumns; i++) {
                     for(int j=0; j<AppSettings.numRows; j++) {
                         Integer gridAddress = Integer.parseInt(AppSettings.gridAddress[((i)*AppSettings.numColumns) + (j)],2);
-
+                        
                         if(InterfaceFunct.displayMode == InterfaceFunct.CAPACITANCE_MODE) {
                             // If this gridAddress is a known touch point, we can continue to next grid address
                             if(touchPoints.contains(gridAddress)) {
-                                FrameUtil.panelHolder[i][j] = new GridObject(gridAddress, processedCap.get(gridAddress) + " pF", relCapDiff.get(gridAddress)*100f + "%", AppSettings.COLOR_PRESS);
+                                FrameUtil.panelHolder[i][j] = new GridObject(gridAddress, processedCap.get(gridAddress)
+                                        + " pF", relCapDiff.get(gridAddress)*100f + "%", InterfaceFunct.calculateColor(gridAddress));
 //								continue;
                             }
                             // Otherwise, check for new touch points
                             else if(relCapDiff.get(gridAddress) < AppSettings.relDiffPress) {
-                                FrameUtil.panelHolder[i][j] = new GridObject(gridAddress, processedCap.get(gridAddress) + " pF", relCapDiff.get(gridAddress)*100f + "%", AppSettings.COLOR_PRESS);
+                                FrameUtil.panelHolder[i][j] = new GridObject(gridAddress, processedCap.get(gridAddress)
+                                        + " pF", relCapDiff.get(gridAddress)*100f + "%", InterfaceFunct.calculateColor(gridAddress));
                                 touchPoints.add(gridAddress);
                             }
 							/*else if(currentCapacitance.get(gridAddress) < baselineThresholdMap.get(gridAddress) && relCapDiff.get(gridAddress) > relDiffHover) {
 								panelHolder[i][j] = new GridObject(gridAddress, currentCapacitance.get(gridAddress) + " pF", relCapDiff.get(gridAddress)*100f + "%", AppSettings.COLOR_HOVER);
 							}*/
                             else {
-                                FrameUtil.panelHolder[i][j] = new GridObject(gridAddress, processedCap.get(gridAddress) + " pF", relCapDiff.get(gridAddress)*100f + "%", AppSettings.COLOR_DEFAULT);
+                                FrameUtil.panelHolder[i][j] = new GridObject(gridAddress, processedCap.get(gridAddress)
+                                        + " pF", relCapDiff.get(gridAddress)*100f + "%", InterfaceFunct.calculateColor(gridAddress));
                             }
 
                         } else if(InterfaceFunct.displayMode == InterfaceFunct.GRAPH_MODE) {
@@ -306,22 +308,24 @@ public class DataController {
                                 //System.out.println("rel cap diff= " + relCapDiff.get(gridAddress) + " -- press needed " + AppSettings.relDiffPress );
 
                             if(touchPoints.contains(gridAddress)) {
-                                chartsArray.get(gridAddress).setBackground(AppSettings.COLOR_PRESS);
+                                chartsArray.get(gridAddress).setBackground(InterfaceFunct.calculateColor(gridAddress));
 //								continue;
                                 System.out.println("already a touch point exists at " + gridAddress);
                             }
                             // Otherwise, check for new touch points
                             else if(relCapDiff.get(gridAddress) < AppSettings.relDiffPress) {
-                                chartsArray.get(gridAddress).setBackground(AppSettings.COLOR_PRESS);
-                                System.out.println("NEW touch point at " + gridAddress);
+                                Color clr = InterfaceFunct.calculateColor(gridAddress);
+                                chartsArray.get(gridAddress).setBackground(clr);
+                                System.out.println("NEW touch point at " + gridAddress + "   " + clr.toString()) ;
 
                             }
 							/*else if(currentCapacitance.get(gridAddress) < baselineThresholdMap.get(gridAddress) && relCapDiff.get(gridAddress) > relDiffHover) {
 
 							}*/
                             else {
-                                chartsArray.get(gridAddress).setBackground(AppSettings.COLOR_DEFAULT);
+                                chartsArray.get(gridAddress).setBackground(InterfaceFunct.calculateColor(gridAddress));
                             }
+
                             FrameUtil.panelHolder[i][j] = chartsArray.get(gridAddress);
                         }
                         FrameUtil.panelHolder[i][j].setBorder(BorderFactory.createLineBorder(Color.black, 1));
