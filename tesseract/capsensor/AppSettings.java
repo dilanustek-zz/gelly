@@ -63,9 +63,9 @@ public class AppSettings {
 	static final HashMap<String,Integer> rowMap = new HashMap<String,Integer>();
 	
 	// Touch threshold values
-	public static Float relDiffHover= -0.07f;
-	public static Float relDiffPress = -0.1f;
-	public static Float relDiffRelease = 0.04f;
+	//public static Float relDiffHover= -0.07f;
+	public static Float relDiffPress = -0.15f;
+	public static Float relDiffRelease = 0.15f;
 	
 	// Filtering parameters
 	public static final float slewRateIncrement = 0.005f;
@@ -134,7 +134,7 @@ public class AppSettings {
 					} else {
 						System.out.println("No serial port value read.");
 					}
-				} else if(lineNumber == rowMap.get(tagThresholdHover)) {
+				}/* else if(lineNumber == rowMap.get(tagThresholdHover)) {
 					pattern = Pattern.compile(patternThresholdHover);
 					matcher = pattern.matcher(line);
 					if (matcher.find() && matcher.groupCount() == 1) {
@@ -145,7 +145,7 @@ public class AppSettings {
 					} else {
 						System.out.println("No hover threshold value read.");
 					}
-				} else if(lineNumber == rowMap.get(tagThresholdPress)) {
+				}*/ else if(lineNumber == rowMap.get(tagThresholdPress)) {
 					pattern = Pattern.compile(patternThresholdPress);
 					matcher = pattern.matcher(line);
 					if (matcher.find() && matcher.groupCount() == 1) {

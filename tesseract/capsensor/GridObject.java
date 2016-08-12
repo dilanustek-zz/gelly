@@ -72,9 +72,9 @@ public class GridObject extends JPanel {
 				return AppSettings.COLOR_PRESS;
 			}
 			// If relative difference between capacitance and reference thresholds is below the defined relDiffHover, this is a hover
-			else if (capValue <= DataController.baselineThresholdMap.get(gridAddress)*(1f - AppSettings.relDiffHover)) {
+			/*else if (capValue <= DataController.baselineThresholdMap.get(gridAddress)*(1f - AppSettings.relDiffHover)) {
 				return AppSettings.COLOR_HOVER;
-			}
+			}*/
 			// Otherwise, use default color
 			else {
 				return AppSettings.COLOR_DEFAULT;

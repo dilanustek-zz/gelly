@@ -8,6 +8,7 @@ import info.monitorenter.gui.chart.ITrace2D;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -218,7 +219,9 @@ public class DataController {
                         if(gridAddress == (AppSettings.numDataPts-1)) {
                             isDataTransmitting = false;
                             // Implementation without SRF
-                            findTouchPoints();
+                            if(relCapDiff != null) {
+                                findTouchPoints();
+                            }
                         }
                         break;
                     case FilterUtil.FILTER_SR:
@@ -228,8 +231,9 @@ public class DataController {
                             isDataTransmitting = false;
                             // Implementation with SRF
                             if(AppSettings.slewRateSetCounter%AppSettings.slewRateSetsPerUpdate == 0)
-                                findTouchPoints();
-                        }
+                                if(relCapDiff != null) {
+                                    findTouchPoints();
+                                }                        }
                         break;
                     case FilterUtil.FILTER_LP:
                         // Implementation with Butterworth LP filter
@@ -237,8 +241,9 @@ public class DataController {
                         FilterUtil.applyLPtAvgLpFilter(gridAddress, capValue);
                         if(gridAddress == (AppSettings.numDataPts-1)) {
                             isDataTransmitting = false;
-                            findTouchPoints();
-                        }
+                            if(relCapDiff != null) {
+                                findTouchPoints();
+                            }                        }
                         break;
                 }
                 CapMatrix.debugText = "Parsing input capacitance...";
@@ -270,7 +275,7 @@ public class DataController {
                 for(int i=0; i<numTouchPoints; i++) {
                     int gridAddress = (int) tmpTouchSet[i];
 
-                    if(relCapDiff.get(gridAddress) < AppSettings.relDiffRelease) {
+                    if(relCapDiff.get(gridAddress) > AppSettings.relDiffRelease) {
                         touchPoints.remove(gridAddress);
                     }
                 }
@@ -278,35 +283,16 @@ public class DataController {
                 for(int i=0; i<AppSettings.numColumns; i++) {
                     for(int j=0; j<AppSettings.numRows; j++) {
                         Integer gridAddress = Integer.parseInt(AppSettings.gridAddress[((i)*AppSettings.numColumns) + (j)],2);
-                        
+
                         if(InterfaceFunct.displayMode == InterfaceFunct.CAPACITANCE_MODE) {
-                            // If this gridAddress is a known touch point, we can continue to next grid address
-                            if(touchPoints.contains(gridAddress)) {
-                                FrameUtil.panelHolder[i][j] = new GridObject(gridAddress, processedCap.get(gridAddress)
-                                        + " pF", relCapDiff.get(gridAddress)*100f + "%", InterfaceFunct.calculateColor(gridAddress));
-//								continue;
-                            }
-                            // Otherwise, check for new touch points
-                            else if(relCapDiff.get(gridAddress) < AppSettings.relDiffPress) {
-                                FrameUtil.panelHolder[i][j] = new GridObject(gridAddress, processedCap.get(gridAddress)
-                                        + " pF", relCapDiff.get(gridAddress)*100f + "%", InterfaceFunct.calculateColor(gridAddress));
-                                touchPoints.add(gridAddress);
-                            }
-							/*else if(currentCapacitance.get(gridAddress) < baselineThresholdMap.get(gridAddress) && relCapDiff.get(gridAddress) > relDiffHover) {
-								panelHolder[i][j] = new GridObject(gridAddress, currentCapacitance.get(gridAddress) + " pF", relCapDiff.get(gridAddress)*100f + "%", AppSettings.COLOR_HOVER);
-							}*/
-                            else {
-                                FrameUtil.panelHolder[i][j] = new GridObject(gridAddress, processedCap.get(gridAddress)
-                                        + " pF", relCapDiff.get(gridAddress)*100f + "%", InterfaceFunct.calculateColor(gridAddress));
-                            }
+                            Float relCap = relCapDiff.get(gridAddress)*100f;
+                            DecimalFormat df = new DecimalFormat("#0.00");
+
+                            FrameUtil.panelHolder[i][j] = new GridObject(gridAddress, processedCap.get(gridAddress)
+                                        + " pF", df.format(relCap) + "%", InterfaceFunct.calculateColor(gridAddress));
 
                         } else if(InterfaceFunct.displayMode == InterfaceFunct.GRAPH_MODE) {
-//							if(currentCapacitance.get(gridAddress) > baselineThresholdMap.get(gridAddress) && relCapDiff.get(gridAddress) > relDiffPress) {
                             // If this gridAddress is a known touch point, we can continue to next grid address
-
-                            //if(gridAddress==0)
-                                //System.out.println("rel cap diff= " + relCapDiff.get(gridAddress) + " -- press needed " + AppSettings.relDiffPress );
-
                             if(touchPoints.contains(gridAddress)) {
                                 chartsArray.get(gridAddress).setBackground(InterfaceFunct.calculateColor(gridAddress));
 //								continue;
@@ -318,11 +304,7 @@ public class DataController {
                                 chartsArray.get(gridAddress).setBackground(clr);
                                 System.out.println("NEW touch point at " + gridAddress + "   " + clr.toString()) ;
 
-                            }
-							/*else if(currentCapacitance.get(gridAddress) < baselineThresholdMap.get(gridAddress) && relCapDiff.get(gridAddress) > relDiffHover) {
-
-							}*/
-                            else {
+                            } else {
                                 chartsArray.get(gridAddress).setBackground(InterfaceFunct.calculateColor(gridAddress));
                             }
 

@@ -52,7 +52,7 @@ public class SettingsPanel extends JPanel {
 	private static JComboBox<String> touchSettingsList;
 	
 	// Threshold field components
-	public static final JTextField threshHoverField = new JTextField(Float.toString(AppSettings.relDiffHover * 100f));
+	//public static final JTextField threshHoverField = new JTextField(Float.toString(AppSettings.relDiffHover * 100f));
 	public static final JTextField threshPressField = new JTextField(Float.toString(AppSettings.relDiffPress * 100f));
 	public static final JTextField threshReleaseField = new JTextField(Float.toString(AppSettings.relDiffRelease * 100f));
 	public static final JButton updateThresholdButton = new JButton(updateString);
@@ -194,22 +194,22 @@ public class SettingsPanel extends JPanel {
 		layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, touchSettingsPanel, 0, SpringLayout.HORIZONTAL_CENTER, this);
 				
 		// Initialize threshold fields
-		JLabel threshHoverLabel = new JLabel("Hover Change Threshold (%):");
+		/*JLabel threshHoverLabel = new JLabel("Hover Change Threshold (%):");
 		this.add(threshHoverLabel);
 		this.add(threshHoverField);
 		layout.putConstraint(SpringLayout.WEST, threshHoverLabel, 20, SpringLayout.WEST, this);
 		layout.putConstraint(SpringLayout.NORTH, threshHoverLabel, 15, SpringLayout.SOUTH, touchSettingsPanel);
 		layout.putConstraint(SpringLayout.WEST, threshHoverField, 5, SpringLayout.EAST, threshHoverLabel);
 		layout.putConstraint(SpringLayout.NORTH, threshHoverField, 15, SpringLayout.SOUTH, touchSettingsPanel);
-		layout.putConstraint(SpringLayout.EAST, comPortField, 0, SpringLayout.EAST, threshHoverField);
-		JLabel threshPressLabel = new JLabel("Press Change Threshold (%):");
+		layout.putConstraint(SpringLayout.EAST, comPortField, 0, SpringLayout.EAST, threshHoverField); */
+		JLabel threshPressLabel = new JLabel("Touch Threshold (%):");
 		this.add(threshPressLabel);
 		this.add(threshPressField);
 		layout.putConstraint(SpringLayout.WEST, threshPressLabel, 20, SpringLayout.WEST, this);
-		layout.putConstraint(SpringLayout.NORTH, threshPressLabel, 15, SpringLayout.SOUTH, threshHoverField);
+		layout.putConstraint(SpringLayout.NORTH, threshPressLabel, 15, SpringLayout.SOUTH, touchSettingsPanel);
 		layout.putConstraint(SpringLayout.WEST, threshPressField, 5, SpringLayout.EAST, threshPressLabel);
-		layout.putConstraint(SpringLayout.NORTH, threshPressField, 15, SpringLayout.SOUTH, threshHoverField);
-		layout.putConstraint(SpringLayout.EAST, threshHoverField, 0, SpringLayout.EAST, threshPressField);
+		layout.putConstraint(SpringLayout.NORTH, threshPressField, 15, SpringLayout.SOUTH, touchSettingsPanel);
+		layout.putConstraint(SpringLayout.EAST, comPortField, 0, SpringLayout.EAST, threshPressField);
 		JLabel threshReleaseLabel = new JLabel("Release Change Threshold (%):");
 		this.add(threshReleaseLabel);
 		this.add(threshReleaseField);
@@ -234,7 +234,7 @@ public class SettingsPanel extends JPanel {
 					FrameUtil.updateDebugText();
 					return;
 				}
-
+/*
 				Float tmpThresholdHover = Float.valueOf(SettingsPanel.threshHoverField.getText())/100f;
 				if(tmpThresholdHover != null) {
 					AppSettings.relDiffHover = tmpThresholdPress;
@@ -245,7 +245,7 @@ public class SettingsPanel extends JPanel {
 					FrameUtil.updateDebugText();
 					return;
 				}
-
+*/
 				Float tmpThresholdRelease = Float.valueOf(SettingsPanel.threshReleaseField.getText())/100f;
 				if(tmpThresholdRelease != null) {
 					AppSettings.relDiffRelease = tmpThresholdRelease;
@@ -364,7 +364,7 @@ public class SettingsPanel extends JPanel {
 		// Enable display settings radio group
 		displaySettingsList.setEnabled(true);
 		// Enable threshold input fields
-		threshHoverField.setEnabled(true);
+		//threshHoverField.setEnabled(true);
 		threshPressField.setEnabled(true);
 		threshReleaseField.setEnabled(true);
 		// Enable filter settings radio group
@@ -381,7 +381,7 @@ public class SettingsPanel extends JPanel {
 		// Disable display settings radio group
 		displaySettingsList.setEnabled(false);
 		// Disable threshold input fields
-		threshHoverField.setEnabled(false);
+		//threshHoverField.setEnabled(false);
 		threshPressField.setEnabled(false);
 		threshReleaseField.setEnabled(false);
 		// Disable filter settings radio group

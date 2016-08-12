@@ -2,6 +2,7 @@ package capsensor;
 
 
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.awt.*;
 
 import static java.lang.Math.abs;
@@ -79,6 +80,7 @@ public class InterfaceFunct {
 
         if (DataController.relCapDiff.get(gridAddress) < AppSettings.relDiffPress){
             //there is a touch
+            DataController.touchPoints.add(gridAddress);
             return AppSettings.COLOR_PRESS;
         } else if (DataController.relCapDiff.get(gridAddress) > 0) {
             // increase of capacitance: no touch
