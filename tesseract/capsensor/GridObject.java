@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 
 
 public class GridObject extends JPanel {
-	private static final long serialVersionUID = 1L;
 	private String gridText = new String();
 	private Integer gridAddress = 0;
 	

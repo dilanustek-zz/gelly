@@ -26,8 +26,6 @@ import jssc.SerialPortException;
  * Edited by Dilan Ustek (2016)
  */
 public class CapMatrix extends JPanel {
-	private static final long serialVersionUID = 1L;
-
 	// debug variables
 	protected static String debugText = new String();
 	protected static final String DEBUG_COM_UNAVAILABLE = "Unable to connect to Arduino...\nThe serial may be incorrect, not connected, or busy.";

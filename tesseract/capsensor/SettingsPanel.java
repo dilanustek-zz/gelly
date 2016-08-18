@@ -20,7 +20,6 @@ import javax.swing.SpringLayout;
 
 
 public class SettingsPanel extends JPanel {
-	private static final long serialVersionUID = 1L;
 
 	// Constant strings
 	public static final String serialInitializeString = "Initialize Port";
@@ -375,7 +374,6 @@ public class SettingsPanel extends JPanel {
 }
 
 class SettingGroupPanel extends JPanel {
-	private static final long serialVersionUID = 1L;
 	private JPanel interiorPanel = new JPanel();
 	
 	public SettingGroupPanel(String labelString, JPanel radioGroup) {
