@@ -17,8 +17,8 @@ public class AppSettings {
 	public static int numColumns = 4;
 	protected static int numDataPts = AppSettings.numColumns * AppSettings.numRows;
 
-	//public static String[] gridAddress = {"0110","0100","0101","0111","0010","0000","0001","0011","1010","1000","1001","1011","1110","1100","1101","1111"};
-	public static String[] gridAddress = {"0000","0001","0010","0011","0100","0101","0110","0111","1000","1001","1010","1011","1100","1101","1110","1111"};
+	public static String[] gridAddress = {"0110","0100","0101","0111","0010","0000","0001","0011","1010","1000","1001","1011","1110","1100","1101","1111"};
+	//public static String[] gridAddress = {"0000","0001","0010","0011","0100","0101","0110","0111","1000","1001","1010","1011","1100","1101","1110","1111"};
 
 	// Grid object parameters
 	public static final int widthRect = 200;
@@ -62,8 +62,8 @@ public class AppSettings {
 	static final HashMap<String,Integer> rowMap = new HashMap<String,Integer>();
 	
 	// Touch threshold values
-	public static Float relDiffPress = -0.15f;
-	public static Float relDiffRelease = -0.05f;
+	public static Float relDiffPress = -0.10f;
+	public static Float relDiffRelease = -0.005f;
 
 	// Filtering parameters
 	public static final float slewRateIncrement = 0.005f;

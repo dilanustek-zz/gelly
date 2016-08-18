@@ -59,21 +59,21 @@ public class FilterUtil {
         CapMatrix.debugText = "Applying slew rate filter.";
         FrameUtil.updateDebugText();
 
+        float newOutput = capValue;
+
         // If no value is currently stored for this grid address, add this value to the current reading
         if(!DataController.processedCap.containsKey(gridAddress))
-            DataController.processedCap.put(gridAddress, capValue);
+            DataController.processedCap.put(gridAddress, newOutput);
         // Apply SRF
         if(capValue > DataController.processedCap.get(gridAddress)) {
-            DataController.processedCap.put(gridAddress, DataController.processedCap.get(gridAddress) + AppSettings.slewRateIncrement);
+            newOutput = DataController.processedCap.get(gridAddress) + AppSettings.slewRateIncrement; // TODO check
         } else if(capValue < DataController.processedCap.get(gridAddress)) {
-            DataController.processedCap.put(gridAddress, DataController.processedCap.get(gridAddress) - AppSettings.slewRateIncrement);
+            newOutput = DataController.processedCap.get(gridAddress) - AppSettings.slewRateIncrement;
         }
-        AppSettings.slewRateSampleCounter++;
+        DataController.processedCap.put(gridAddress, newOutput);
+
         if(AppSettings.slewRateSampleCounter%AppSettings.numDataPts == 0) {
             AppSettings.slewRateSetCounter++;
-//			if(slewRateSetCounter%slewRateDataSets == 0) {
-//				slewRateSetCounter = 0;
-//			}
         }
         // If the number of data sets sampled equals slewRateDataSets, calculate the abs/rel difference
         if(AppSettings.slewRateSetCounter%AppSettings.slewRateSetsPerUpdate == 0) {
@@ -86,7 +86,7 @@ public class FilterUtil {
         }
         // Add data point to graph
 //		dataTrace.get(gridAddress).addPoint(((double) System.currentTimeMillis() - startTime), capValue);
-        DataController.dataTrace.get(gridAddress).addPoint(System.currentTimeMillis(), capValue);
+        DataController.dataTrace.get(gridAddress).addPoint(System.currentTimeMillis(), newOutput);
 
     }
 
@@ -139,10 +139,10 @@ public class FilterUtil {
      *
      */
     private static final int L_filter = 8;
+
     protected static void applyLPtAvgLpFilter(Integer gridAddress, Float capValue) {
         // Update debug text
         CapMatrix.debugText = "Applying IIR L-point average LP filter.";
-        System.out.println("Applying IIR L-point average low pass filter");
         FrameUtil.updateDebugText();
 
         // If no value is currently stored for this grid address, add this value to the raw
@@ -164,7 +164,7 @@ public class FilterUtil {
                 /DataController.baselineThresholdMap.get(gridAddress));
         // Add data point to graph
 //		dataTrace.get(gridAddress).addPoint(((double) System.currentTimeMillis() - startTime), newOutput);
-        DataController.dataTrace.get(gridAddress).addPoint(System.currentTimeMillis(), capValue);
+        DataController.dataTrace.get(gridAddress).addPoint(System.currentTimeMillis(), newOutput);
 
     }
 

@@ -13,7 +13,8 @@ public class CSVUtil {
     private static final char DEFAULT_SEPARATOR = ',';
 
     public static void writeLine(Writer w, List<String> values) throws IOException {
-        writeLine(w, values, DEFAULT_SEPARATOR, ' ');
+        if (values != null)
+            writeLine(w, values, DEFAULT_SEPARATOR, ' ');
     }
 
     public static void writeLine(Writer w, List<String> values, char separators) throws IOException {
@@ -54,8 +55,11 @@ public class CSVUtil {
 
             first = false;
         }
-        sb.append("\n");
-        w.append(sb.toString());
+
+        if (sb != null) {
+            sb.append("\n");
+            w.append(sb.toString());
+        }
 
 
     }

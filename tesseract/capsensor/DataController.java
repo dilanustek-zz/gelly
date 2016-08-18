@@ -48,6 +48,9 @@ public class DataController {
     // Keep 4 cap values for each cell to average later
     private static Multimap<Integer, Float> fourCaps = ArrayListMultimap.create();
 
+    // flag for hover
+    public static Boolean hoverFlag = false;
+
     /**
      * Functions for handling the commands received through serial
      */
@@ -66,8 +69,8 @@ public class DataController {
                 if (baselineThresholdMap.size() == AppSettings.numDataPts){
                     addCapacitancePoint(gridAddress, capValue);
 
-                    // still a baseline point every 4 collections if there is no touch TODO + hover
-                    if ((baselineCount >= 64) && touchPoints.isEmpty()){
+                    // still a baseline point every 4 collections if there is no touch TODO hover
+                    if ((baselineCount >= AppSettings.numDataPts * 4) && touchPoints.isEmpty() && !hoverFlag){
                         addAveragedBaselinePoints();//  empty fourCaps
                     }
 
@@ -139,7 +142,8 @@ public class DataController {
                     FilterUtil.baselineSlewRateFilter(gridAddress, capValue);
                     break;
                 case FilterUtil.FILTER_LP:
-                    break; // TODO what happened here?
+                    baselineThresholdMap.put(gridAddress, capValue);
+                    break;
             }
             CSVUtil.writeCsv(gridAddress, capValue);
 
@@ -156,6 +160,7 @@ public class DataController {
                     FilterUtil.baselineSlewRateFilter(gridAddress, capValue);
                     break;
                 case FilterUtil.FILTER_LP:
+                    baselineThresholdMap.put(gridAddress, capValue);
                     break;
             }
             if(gridAddress == (AppSettings.numDataPts-1)) {

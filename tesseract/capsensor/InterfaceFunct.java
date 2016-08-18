@@ -80,12 +80,20 @@ public class InterfaceFunct {
 
         if (DataController.relCapDiff.get(gridAddress) < AppSettings.relDiffPress){
             //there is a touch
+            DataController.hoverFlag = false;
             DataController.touchPoints.add(gridAddress);
             return AppSettings.COLOR_PRESS;
         } else if (DataController.relCapDiff.get(gridAddress) > 0) {
             // increase of capacitance: no touch
+            DataController.hoverFlag = false;
             return AppSettings.COLOR_DEFAULT;
         } else {
+            // if there is a hover, trigger flag
+            if (DataController.relCapDiff.get(gridAddress) < AppSettings.relDiffPress * 0.4){
+                System.out.println("HOVER");
+                DataController.hoverFlag = true;
+            }
+
             //interpolate
             int relDiff = (int) Math.ceil(AppSettings.relDiffPress * 100);
             int capDiff = (int) Math.ceil(DataController.relCapDiff.get(gridAddress) *100f);
