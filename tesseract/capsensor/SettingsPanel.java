@@ -39,10 +39,11 @@ public class SettingsPanel extends JPanel {
 	
 	// Filter settings components
 	private static final String filterNoneString = "No filter";
+	private static final String filterMovingAvgString = "Moving average filter";
 	private static final String filterSrString = "Slew rate filter";
-	private static final String filterLpLPtAvgString = "Low pass (L-point average) filter";
+	private static final String filterLpLPtAvgString = "Low pass (L-point avg) filter";
 	private static final String filterLpButterString = "Low pass (Butterworth) filter";
-	private static final String[] filterOptions = {filterNoneString, filterSrString, filterLpLPtAvgString};
+	private static final String[] filterOptions = {filterNoneString, filterMovingAvgString, filterSrString, filterLpLPtAvgString};
 	private static JComboBox<String> filterSettingsList;
 	
 	// Touch recognition methods
@@ -155,6 +156,8 @@ public class SettingsPanel extends JPanel {
 				String selectedOption = (String)cb.getSelectedItem();
 				if(selectedOption == filterNoneString) {
 					InterfaceFunct.changeFilterMode(FilterUtil.FILTER_NONE);
+				} else if (selectedOption == filterMovingAvgString){
+					InterfaceFunct.changeFilterMode(FilterUtil.FILTER_MAVG);
 				} else if(selectedOption == filterSrString) {
 					InterfaceFunct.changeFilterMode(FilterUtil.FILTER_SR);
 				} else if(selectedOption == filterLpLPtAvgString) {

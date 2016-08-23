@@ -9,8 +9,9 @@ public class FilterUtil {
 
     // Filtering parameters
     protected static final int FILTER_NONE = 0;
-    protected static final int FILTER_SR = 1;
-    protected static final int FILTER_LP = 2;
+    protected static final int FILTER_MAVG = 1;
+    protected static final int FILTER_SR = 2;
+    protected static final int FILTER_LP = 3;
     protected static int filterMode = FILTER_NONE;
 
     /**
@@ -49,10 +50,27 @@ public class FilterUtil {
 //		relCapDiff.put(gridAddress, Math.abs((CapMatrix.baselineThresholdMap.get(gridAddress) - capValue))/CapMatrix.baselineThresholdMap.get(gridAddress));
         DataController.relCapDiff.put(gridAddress, (capValue - DataController.baselineThresholdMap.get(gridAddress))/DataController.baselineThresholdMap.get(gridAddress));
         // Add data point to graph
+		DataController.dataTrace.get(gridAddress).addPoint(((double) System.currentTimeMillis() - CapMatrix.startTime), capValue);
+        //DataController.dataTrace.get(gridAddress).addPoint(System.currentTimeMillis(), capValue);
+
+    }
+
+
+    protected static void applyMovingAvgFilter(Integer gridAddress, Float capValue) {
+        // New implementation with processed data
+        CapMatrix.debugText = "Applying no filter.";
+        FrameUtil.updateDebugText();
+//		System.out.println(debugText);
+        DataController.processedCap.put(gridAddress, capValue);
+        DataController.absCapDiff.put(gridAddress, Math.abs(DataController.baselineThresholdMap.get(gridAddress) - capValue));
+//		relCapDiff.put(gridAddress, Math.abs((CapMatrix.baselineThresholdMap.get(gridAddress) - capValue))/CapMatrix.baselineThresholdMap.get(gridAddress));
+        DataController.relCapDiff.put(gridAddress, (capValue - DataController.baselineThresholdMap.get(gridAddress))/DataController.baselineThresholdMap.get(gridAddress));
+        // Add data point to graph
 //		dataTrace.get(gridAddress).addPoint(((double) System.currentTimeMillis() - startTime), capValue);
         DataController.dataTrace.get(gridAddress).addPoint(System.currentTimeMillis(), capValue);
 
     }
+
 
     protected static void applySlewRateFilter(Integer gridAddress, Float capValue) {
         // Update debug text
@@ -65,9 +83,9 @@ public class FilterUtil {
         if(!DataController.processedCap.containsKey(gridAddress))
             DataController.processedCap.put(gridAddress, newOutput);
         // Apply SRF
-        if(capValue > DataController.processedCap.get(gridAddress)) {
+        if(capValue < DataController.processedCap.get(gridAddress)) {
             newOutput = DataController.processedCap.get(gridAddress) + AppSettings.slewRateIncrement; // TODO check
-        } else if(capValue < DataController.processedCap.get(gridAddress)) {
+        } else if(capValue > DataController.processedCap.get(gridAddress)) {
             newOutput = DataController.processedCap.get(gridAddress) - AppSettings.slewRateIncrement;
         }
         DataController.processedCap.put(gridAddress, newOutput);

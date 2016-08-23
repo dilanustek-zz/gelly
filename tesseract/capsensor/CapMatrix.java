@@ -32,6 +32,7 @@ public class CapMatrix extends JPanel {
 	protected static final String DEBUG_WAIT_CALIBRATE = "Calibrating baseline...";
 	private static final String DEBUG_START = "Application started.";
 
+    protected static long startTime = System.currentTimeMillis();	// Used to help set the x-axis for graphing
 
 	public static void main(String[] a) {
 		// Try reading application settings from file

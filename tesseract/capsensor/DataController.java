@@ -77,11 +77,15 @@ public class DataController {
                 } else if (baselineThresholdMap.size() < AppSettings.numDataPts){
                     addBaselinePoint(gridAddress, capValue);
                 } else {
-                    System.out.println("parse command error");
-                    // TODO error
+                    CapMatrix.debugText = "parse command error";
                 }
 
+            } else {
+                CapMatrix.debugText = "Received unexpected command from port.";
             }
+        } else {
+            CapMatrix.debugText = "Received unexpected command from port.";
+
         }
 
 
@@ -123,19 +127,17 @@ public class DataController {
 
     }
 
+    // TODO is data transmitting: make code shorter
     private static void addBaselinePoint(Integer gridAddress, Float capValue)
             throws IOException {
-        // Raw Implementation
-//		CapMatrix.baselineThresholdMap.put(gridAddress, capValue);
 
         // Implementation with max search algorithm
         if(gridAddress == 0) {
       //  if(baselineThresholdMap.size() == 0) {
             isDataTransmitting = true;
             switch(FilterUtil.filterMode) {
-                case FilterUtil.FILTER_NONE:
-                    // Implementation with no filter
-                    baselineThresholdMap.put(gridAddress, capValue);
+                case FilterUtil.FILTER_MAVG:
+                    // TODO
                     break;
                 case FilterUtil.FILTER_SR:
                     // Implementation with SRF
@@ -144,6 +146,10 @@ public class DataController {
                 case FilterUtil.FILTER_LP:
                     baselineThresholdMap.put(gridAddress, capValue);
                     break;
+                default:
+                // Implementation with no filter
+                baselineThresholdMap.put(gridAddress, capValue);
+                break;
             }
             CSVUtil.writeCsv(gridAddress, capValue);
 
@@ -151,15 +157,18 @@ public class DataController {
         // Implementation with max search algorithm
         else if(isDataTransmitting) {
             switch(FilterUtil.filterMode) {
-                case FilterUtil.FILTER_NONE:
-                    // Implementation with no filter
-                    baselineThresholdMap.put(gridAddress, capValue);
+                case FilterUtil.FILTER_MAVG:
+                    // TODO
                     break;
                 case FilterUtil.FILTER_SR:
                     // Implementation with SRF
                     FilterUtil.baselineSlewRateFilter(gridAddress, capValue);
                     break;
                 case FilterUtil.FILTER_LP:
+                    baselineThresholdMap.put(gridAddress, capValue);
+                    break;
+                default:
+                    // Implementation with no filter
                     baselineThresholdMap.put(gridAddress, capValue);
                     break;
             }
@@ -183,9 +192,8 @@ public class DataController {
             if(gridAddress == 0) {
                 isDataTransmitting = true;
                 switch(FilterUtil.filterMode) {
-                    case FilterUtil.FILTER_NONE:
-                        // Implementation with no filter
-                        FilterUtil.applyNoFilter(gridAddress, capValue);
+                    case FilterUtil.FILTER_MAVG:
+                        FilterUtil.applyMovingAvgFilter(gridAddress,capValue);
                         break;
                     case FilterUtil.FILTER_SR:
                         // Implementation with SRF
@@ -194,6 +202,10 @@ public class DataController {
                     case FilterUtil.FILTER_LP:
 //						applyButterworthLpFilter(gridAddress, capValue);
                         FilterUtil.applyLPtAvgLpFilter(gridAddress, capValue);
+                        break;
+                    default:
+                        // Implementation with no filter
+                        FilterUtil.applyNoFilter(gridAddress, capValue);
                         break;
                 }
                 //Add to the fourCaps to keep for averaging later
@@ -205,15 +217,13 @@ public class DataController {
             } else if(isDataTransmitting) {
                 switch(FilterUtil.filterMode) {
                     case FilterUtil.FILTER_NONE:
-                        // Implementation with no filter
-                        FilterUtil.applyNoFilter(gridAddress, capValue);
+                        // Implementation with moving avg. filter
+                        FilterUtil.applyMovingAvgFilter(gridAddress, capValue);
                         if(gridAddress == (AppSettings.numDataPts-1)) {
                             isDataTransmitting = false;
-                            // Implementation without SRF
                             if(relCapDiff != null) {
                                 findTouchPoints();
-                            }
-                        }
+                            }                        }
                         break;
                     case FilterUtil.FILTER_SR:
                         // Implementation with SRF
@@ -235,6 +245,17 @@ public class DataController {
                             if(relCapDiff != null) {
                                 findTouchPoints();
                             }                        }
+                        break;
+                    default:
+                        // Implementation with no filter
+                        FilterUtil.applyNoFilter(gridAddress, capValue);
+                        if(gridAddress == (AppSettings.numDataPts-1)) {
+                            isDataTransmitting = false;
+                            // Implementation without SRF
+                            if(relCapDiff != null) {
+                                findTouchPoints();
+                            }
+                        }
                         break;
                 }
                 CapMatrix.debugText = "Parsing input capacitance...";

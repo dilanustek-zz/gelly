@@ -194,7 +194,7 @@ void loop() // main program begins
              
           average_counter++;
              // average_counter>=4 ensures that 4 sets of data have been taken and averaged together
-             if(average_counter>=4  && touch_flag==false)
+             if(average_counter>=4  )//&& touch_flag==false)
              {
                average_counter=0;
                
@@ -252,7 +252,7 @@ void loop() // main program begins
     if (value<BASELINE[LED_POSITION]*hover_thresh)
     {
       touch_flag=true;
-      Serial.print("hover!");
+      //Serial.print("hover!");
 
     }
    
