@@ -65,7 +65,7 @@ public class DataController {
                 Integer gridAddress = Integer.parseInt(matcher.group(1),2);
                 Float capValue = Float.parseFloat(matcher.group(2));
 
-                // Check if command is for setting data baseline
+                // app cap point
                 if (baselineThresholdMap.size() == AppSettings.numDataPts){
                     addCapacitancePoint(gridAddress, capValue);
 
@@ -74,6 +74,7 @@ public class DataController {
                         addAveragedBaselinePoints();//  empty fourCaps
                     }
 
+                //baselines not initiated
                 } else if (baselineThresholdMap.size() < AppSettings.numDataPts){
                     addBaselinePoint(gridAddress, capValue);
                 } else {
@@ -186,7 +187,6 @@ public class DataController {
 
     private static void addCapacitancePoint(Integer gridAddress, Float capValue)
             throws IOException {
-
 
         if(gridAddressMap.containsKey(gridAddress) && baselineThresholdMap.containsKey(gridAddress)) {
             if(gridAddress == 0) {

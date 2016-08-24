@@ -17,11 +17,11 @@ public class AppSettings {
 	public static int numColumns = 4;
 	protected static int numDataPts = AppSettings.numColumns * AppSettings.numRows;
 
-	//public static String[] gridAddress = {"0110","0100","0101","0111","0010","0000","0001","0011","1010","1000","1001","1011","1110","1100","1101","1111"};
-	public static String[] gridAddress = {"1111","1011","0011","0111",
+	public static String[] gridAddress = {"0110","0100","0101","0111","0010","0000","0001","0011","1010","1000","1001","1011","1110","1100","1101","1111"};
+	/*public static String[] gridAddress = {"1111","1011","0011","0111",
 											"1101","1001","0001","0101",
 											"1110","1010","0010","0110",
-											"0000","1100","0100","1000"};
+											"0000","1100","0100","1000"};*/
 
 
 	// Grid object parameters
