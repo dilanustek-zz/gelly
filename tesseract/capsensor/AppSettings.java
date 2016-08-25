@@ -66,8 +66,9 @@ public class AppSettings {
 	static final HashMap<String,Integer> rowMap = new HashMap<String,Integer>();
 	
 	// Touch threshold values
-	public static Float relDiffPress = -0.10f;
+	public static Float relDiffPress = -0.05f;
 	public static Float relDiffRelease = -0.005f;
+	public static Float relDiffHover= relDiffPress.floatValue() * 0.5f;
 
 	// Filtering parameters
 	public static final float slewRateIncrement = 0.005f;

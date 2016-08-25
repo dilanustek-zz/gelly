@@ -259,7 +259,7 @@ void loop() // main program begins
     else if (value>BASELINE[LED_POSITION]*touch_thresh) // ----- should be < ? 
     {
       touch_flag=true;
-      Serial.print("touch!");
+      //Serial.print("touch!");
     }
 
    

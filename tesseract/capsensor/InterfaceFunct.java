@@ -89,7 +89,7 @@ public class InterfaceFunct {
             return AppSettings.COLOR_DEFAULT;
         } else {
             // if there is a hover, trigger flag
-            if (DataController.relCapDiff.get(gridAddress) < AppSettings.relDiffPress * 0.8){
+            if (DataController.relCapDiff.get(gridAddress) < AppSettings.relDiffHover){
                 System.out.println("HOVER");
                 DataController.hoverFlag = true;
             }

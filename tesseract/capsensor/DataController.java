@@ -128,155 +128,99 @@ public class DataController {
 
     }
 
-    // TODO is data transmitting: make code shorter
     private static void addBaselinePoint(Integer gridAddress, Float capValue)
             throws IOException {
 
-        // Implementation with max search algorithm
-        if(gridAddress == 0) {
-      //  if(baselineThresholdMap.size() == 0) {
-            isDataTransmitting = true;
-            switch(FilterUtil.filterMode) {
-                case FilterUtil.FILTER_MAVG:
-                    // TODO
-                    break;
-                case FilterUtil.FILTER_SR:
-                    // Implementation with SRF
-                    FilterUtil.baselineSlewRateFilter(gridAddress, capValue);
-                    break;
-                case FilterUtil.FILTER_LP:
-                    baselineThresholdMap.put(gridAddress, capValue);
-                    break;
-                default:
+        switch(FilterUtil.filterMode) {
+            case FilterUtil.FILTER_MAVG:
+                // TODO
+                break;
+            case FilterUtil.FILTER_SR:
+                // Implementation with SRF
+                FilterUtil.baselineSlewRateFilter(gridAddress, capValue);
+                break;
+            case FilterUtil.FILTER_LP:
+                baselineThresholdMap.put(gridAddress, capValue);
+                break;
+            default:
                 // Implementation with no filter
                 baselineThresholdMap.put(gridAddress, capValue);
                 break;
-            }
-            CSVUtil.writeCsv(gridAddress, capValue);
+        }
 
+        CSVUtil.writeCsv(gridAddress, capValue);
+
+        if(gridAddress == 0) {
+            isDataTransmitting = true;
+        } else if(isDataTransmitting && (gridAddress == (AppSettings.numDataPts-1))) {
+            isDataTransmitting = false;
         }
-        // Implementation with max search algorithm
-        else if(isDataTransmitting) {
-            switch(FilterUtil.filterMode) {
-                case FilterUtil.FILTER_MAVG:
-                    // TODO
-                    break;
-                case FilterUtil.FILTER_SR:
-                    // Implementation with SRF
-                    FilterUtil.baselineSlewRateFilter(gridAddress, capValue);
-                    break;
-                case FilterUtil.FILTER_LP:
-                    baselineThresholdMap.put(gridAddress, capValue);
-                    break;
-                default:
-                    // Implementation with no filter
-                    baselineThresholdMap.put(gridAddress, capValue);
-                    break;
-            }
-            if(gridAddress == (AppSettings.numDataPts-1)) {
-                isDataTransmitting = false;
-            }
-            //CSVUtil.writeCsv(gridAddress, capValue); TODO: do we need to write it? -- or show it?
-        }
-//        else {
-//            System.out.println("### KEY (" + gridAddress + ") NOT FOUND ###");
-//        }
+
         CapMatrix.debugText = "Updating baseline values...";
         FrameUtil.updateDebugText();
     }
+
 
     private static void addCapacitancePoint(Integer gridAddress, Float capValue)
             throws IOException {
 
         if(gridAddressMap.containsKey(gridAddress) && baselineThresholdMap.containsKey(gridAddress)) {
-            if(gridAddress == 0) {
-                isDataTransmitting = true;
-                switch(FilterUtil.filterMode) {
-                    case FilterUtil.FILTER_MAVG:
-                        FilterUtil.applyMovingAvgFilter(gridAddress,capValue);
-                        break;
-                    case FilterUtil.FILTER_SR:
-                        // Implementation with SRF
-                        FilterUtil.applySlewRateFilter(gridAddress, capValue);
-                        break;
-                    case FilterUtil.FILTER_LP:
+
+            switch(FilterUtil.filterMode) {
+                case FilterUtil.FILTER_MAVG:
+                    FilterUtil.applyMovingAvgFilter(gridAddress,capValue);
+                    break;
+                case FilterUtil.FILTER_SR:
+                    // Implementation with SRF
+                    FilterUtil.applySlewRateFilter(gridAddress, capValue);
+                    break;
+                case FilterUtil.FILTER_LP:
 //						applyButterworthLpFilter(gridAddress, capValue);
-                        FilterUtil.applyLPtAvgLpFilter(gridAddress, capValue);
-                        break;
-                    default:
-                        // Implementation with no filter
-                        FilterUtil.applyNoFilter(gridAddress, capValue);
-                        break;
-                }
-                //Add to the fourCaps to keep for averaging later
-                fourCaps.put(gridAddress, capValue);
-                baselineCount++;
-
-                CSVUtil.writeCsv(gridAddress, capValue);
-
-            } else if(isDataTransmitting) {
-                switch(FilterUtil.filterMode) {
-                    case FilterUtil.FILTER_NONE:
-                        // Implementation with moving avg. filter
-                        FilterUtil.applyMovingAvgFilter(gridAddress, capValue);
-                        if(gridAddress == (AppSettings.numDataPts-1)) {
-                            isDataTransmitting = false;
-                            if(relCapDiff != null) {
-                                findTouchPoints();
-                            }                        }
-                        break;
-                    case FilterUtil.FILTER_SR:
-                        // Implementation with SRF
-                        FilterUtil.applySlewRateFilter(gridAddress, capValue);
-                        if(gridAddress == (AppSettings.numDataPts-1)) {
-                            isDataTransmitting = false;
-                            // Implementation with SRF
-                            if(AppSettings.slewRateSetCounter%AppSettings.slewRateSetsPerUpdate == 0)
-                                if(relCapDiff != null) {
-                                    findTouchPoints();
-                                }                        }
-                        break;
-                    case FilterUtil.FILTER_LP:
-                        // Implementation with Butterworth LP filter
-//						applyButterworthLpFilter(gridAddress, capValue);
-                        FilterUtil.applyLPtAvgLpFilter(gridAddress, capValue);
-                        if(gridAddress == (AppSettings.numDataPts-1)) {
-                            isDataTransmitting = false;
-                            if(relCapDiff != null) {
-                                findTouchPoints();
-                            }                        }
-                        break;
-                    default:
-                        // Implementation with no filter
-                        FilterUtil.applyNoFilter(gridAddress, capValue);
-                        if(gridAddress == (AppSettings.numDataPts-1)) {
-                            isDataTransmitting = false;
-                            // Implementation without SRF
-                            if(relCapDiff != null) {
-                                findTouchPoints();
-                            }
-                        }
-                        break;
-                }
-                CapMatrix.debugText = "Parsing input capacitance...";
-
-                //Add to the fourCaps to keep for averaging later
-                fourCaps.put(gridAddress, capValue);
-                baselineCount++;
-
-                CSVUtil.writeCsv(gridAddress, capValue);
+                    FilterUtil.applyLPtAvgLpFilter(gridAddress, capValue);
+                    break;
+                default:
+                    // Implementation with no filter
+                    FilterUtil.applyNoFilter(gridAddress, capValue);
+                    break;
             }
-            else {
-                System.out.println("### KEY (" + gridAddress + ") NOT FOUND ###");
-                CapMatrix.debugText = "### KEY (" + gridAddress + ") NOT FOUND ###";
-            }
+            CapMatrix.debugText = "Parsing input capacitance...";
+
+            //Add to the fourCaps to keep for averaging later
+            fourCaps.put(gridAddress, capValue);
+            baselineCount++;
+
+            CSVUtil.writeCsv(gridAddress, capValue);
+
         } else {
             System.out.println("### Either grid map or baseline does not contain this key ### : " + gridAddress);
             CapMatrix.debugText = "### Either grid map or baseline does not contain this key ### : " + gridAddress;
         }
         FrameUtil.updateDebugText();
 
+        if(gridAddress == 0) {
+            isDataTransmitting = true;
+        } else if(isDataTransmitting) {
+            if (gridAddress == (AppSettings.numDataPts-1)) {
+                // transmitting is done - find touch points
+                isDataTransmitting = false;
+
+                if (FilterUtil.filterMode == FilterUtil.FILTER_SR) {
+
+                    if (AppSettings.slewRateSetCounter % AppSettings.slewRateSetsPerUpdate == 0) {
+                        findTouchPoints();
+                    }
+                } else {
+                    findTouchPoints();
+                }
+            }
+        }  else {
+            System.out.println("### KEY (" + gridAddress + ") NOT FOUND ###");
+            CapMatrix.debugText = "### KEY (" + gridAddress + ") NOT FOUND ###";
+        }
+        FrameUtil.updateDebugText();
+
     }
+
 
     protected static void findTouchPoints() {
         switch(InterfaceFunct.touchMode) {
@@ -358,7 +302,7 @@ public class DataController {
                             // Implementation for viewing capacitance readings
                             if(i == maxCoords[0] && j == maxCoords[1]) {
 //								if(currentCapacitance.get(gridAddress) > baselineThresholdMap.get(gridAddress) && relCapDiff.get(gridAddress) > relDiffPress) {
-                                if(relCapDiff.get(gridAddress) > AppSettings.relDiffPress) {
+                                if(relCapDiff.get(gridAddress) < AppSettings.relDiffPress) {
                                     FrameUtil.panelHolder[i][j] = new GridObject(gridAddress, processedCap.get(gridAddress) + " pF", relCapDiff.get(gridAddress)*100f + "%", AppSettings.COLOR_PRESS);
                                 }
 								/*else if(currentCapacitance.get(gridAddress) < baselineThresholdMap.get(gridAddress) && relCapDiff.get(gridAddress) > relDiffHover) {
