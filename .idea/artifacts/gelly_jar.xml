@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="gelly.jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/gelly_jar</output-path>
+    <root id="root">
+      <element id="archive" name="code.jar">
+        <element id="module-output" name="code" />
+        <element id="dir-copy" path="$PROJECT_DIR$" />
+      </element>
+      <element id="file-copy" path="$PROJECT_DIR$/../../libraries/guava-19.0.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/../../libraries/jchart2d-3.3.2.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/../../libraries/jssc-2.8.0.jar" />
+    </root>
+  </artifact>
+</component>
