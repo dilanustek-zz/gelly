@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact build-on-make="true" name="gelly.jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/gelly_jar</output-path>
+    <output-path>$PROJECT_DIR$/out/artifacts/gelly</output-path>
     <root id="root">
       <element id="archive" name="code.jar">
         <element id="module-output" name="code" />

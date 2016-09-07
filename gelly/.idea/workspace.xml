@@ -2,16 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="50c38abd-f7ff-422f-b16c-febdd6db9049" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/tesseract/capsensor/AppSettings.class" afterPath="$PROJECT_DIR$/out/production/tesseract/capsensor/AppSettings.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/tesseract/capsensor/DataController.class" afterPath="$PROJECT_DIR$/out/production/tesseract/capsensor/DataController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/tesseract/capsensor/InterfaceFunct.class" afterPath="$PROJECT_DIR$/out/production/tesseract/capsensor/InterfaceFunct.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gelly/capsensor/AppSettings.class" afterPath="$PROJECT_DIR$/out/production/gelly/capsensor/AppSettings.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gelly/capsensor/DataController.class" afterPath="$PROJECT_DIR$/out/production/gelly/capsensor/DataController.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/gelly/capsensor/InterfaceFunct.class" afterPath="$PROJECT_DIR$/out/production/gelly/capsensor/InterfaceFunct.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../logs/newlog.csv" afterPath="$PROJECT_DIR$/../logs/newlog.csv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/capsensor/AppSettings.java" afterPath="$PROJECT_DIR$/capsensor/AppSettings.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/capsensor/DataController.java" afterPath="$PROJECT_DIR$/capsensor/DataController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/capsensor/InterfaceFunct.java" afterPath="$PROJECT_DIR$/capsensor/InterfaceFunct.java" />
     </list>
-    <ignored path="tesseract.iws" />
+    <ignored path="gelly.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,7 +27,7 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
-    <favorites_list name="tesseract" />
+    <favorites_list name="gelly" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
@@ -201,7 +201,7 @@
         <subPane>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="tesseract" />
+              <option name="myItemId" value="gelly" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -211,21 +211,21 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="tesseract" />
+              <option name="myItemId" value="gelly" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="tesseract" />
+              <option name="myItemId" value="gelly" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="tesseract" />
+              <option name="myItemId" value="gelly" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="tesseract" />
+              <option name="myItemId" value="gelly" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -240,7 +240,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///Users/dilanustek/Documents/OneDrive/research/code/tesseract/capsensor/AppSettings.java" />
+    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///Users/dilanustek/Documents/OneDrive/research/code/gelly/capsensor/AppSettings.java" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../capsensor243" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
@@ -359,7 +359,7 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="tesseract" />
+      <module name="gelly" />
       <envs />
       <method />
     </configuration>
@@ -450,7 +450,7 @@
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="tesseract" />
+      <module name="gelly" />
       <envs />
       <method />
     </configuration>
@@ -724,7 +724,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/out/artifacts/tesseract_jar/Settings.ini">
+    <entry file="file://$PROJECT_DIR$/out/artifacts/gelly_jar/Settings.ini">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="8" column="24" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
@@ -798,7 +798,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/out/artifacts/tesseract_jar/tesseract.jar!/info/monitorenter/gui/chart/ITrace2D.class">
+    <entry file="jar://$PROJECT_DIR$/out/artifacts/gelly_jar/gelly.jar!/info/monitorenter/gui/chart/ITrace2D.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="19" column="17" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
@@ -834,14 +834,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/out/artifacts/tesseract_jar/tesseract.jar!/info/monitorenter/gui/chart/IAxisLabelFormatter.class">
+    <entry file="jar://$PROJECT_DIR$/out/artifacts/gelly_jar/gelly.jar!/info/monitorenter/gui/chart/IAxisLabelFormatter.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="12" column="17" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="37" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$PROJECT_DIR$/out/artifacts/tesseract_jar/tesseract.jar!/info/monitorenter/gui/chart/IAxis.class">
+    <entry file="jar://$PROJECT_DIR$/out/artifacts/gelly_jar/gelly.jar!/info/monitorenter/gui/chart/IAxis.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="143">
           <caret line="125" column="31" selection-start-line="125" selection-start-column="31" selection-end-line="125" selection-end-column="31" />
@@ -1014,7 +1014,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>tesseract</last-edited>
+          <last-edited>gelly</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1038,7 +1038,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>tesseract</last-edited>
+          <last-edited>gelly</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

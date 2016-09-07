@@ -1,7 +1,9 @@
 <component name="libraryTable">
   <library name="gelly">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/gelly/out/artifacts/gelly_jar/gelly.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../libraries/guava-19.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../libraries/jchart2d-3.3.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../libraries/jssc-2.8.0.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

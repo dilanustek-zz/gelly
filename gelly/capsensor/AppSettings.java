@@ -38,7 +38,7 @@ public class AppSettings {
 	
 	// File IO parameters
 	public static final String fileDirectory = new String();
-	public static final String fileName = "/Users/dilanustek/Documents/OneDrive/research/code/tesseract/out/artifacts/tesseract_jar";
+	public static final String fileName = "/Users/dilanustek/Documents/OneDrive/research/code/gelly/out/artifacts/gelly_jar";
 	public static final String csvFile = "/Users/dilanustek/Documents/OneDrive/research/code/logs/newlog.csv";
 
 	private static int tmpRow = -1;

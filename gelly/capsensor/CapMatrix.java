@@ -20,10 +20,10 @@ import jssc.SerialPortException;
 
 /**
  * Java GUI for displaying the capacitance values read by capacitive sensor
- * 
- * @author Caleb Ng (2015) for Tesseract Technologies
+ * x
+ * @author Dilan Ustek (2016)
+ * 			Caleb Ng (2015)
  *
- * Edited by Dilan Ustek (2016)
  */
 public class CapMatrix extends JPanel {
 	// debug variables
