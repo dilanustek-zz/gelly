@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="tesseract">
+  <library name="gelly">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/out/artifacts/tesseract_jar/tesseract.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/artifacts/gelly_jar/gelly.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
